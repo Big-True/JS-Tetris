@@ -221,7 +221,7 @@ var defaultGameSettings = {
     maxHeight: 40,
     Gravity=1 / 60,
     softDropSpeed=1,
-    enableGhost: true;
+    enableGhost: true,
     enableHardDrop: true,
     enableHold: true,
     holdCount: 1,
