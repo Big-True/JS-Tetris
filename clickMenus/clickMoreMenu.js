@@ -1,0 +1,3 @@
+function moreMenu(){
+    NowPos='more';
+}

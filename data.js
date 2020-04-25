@@ -250,4 +250,5 @@ var defaultSkinSettings = {
     skin: 'defaultSkin',
     mode: 'single'
 }
-var defaultMenuOptions=['单人游戏','多人游戏(会写的)','设置','更多','占空用(']
+var defaultMenuOptions=['单人游戏','多人游戏(会写的)','设置','更多','占空用('];
+var defaultModeOptions=['40L(没写)','150L(没写)','999L(没写)','马拉松(没写)','150s(没写)','C4W(没写)','S4W(没写)','返回'];

@@ -8,15 +8,3 @@ function changeWindowSize() {
     canvas.height = windowHeight = window.innerHeight;
     draw(gameCanvas);
 }
-function singleGameMenu(){
-    NowPos='singleMenu'
-}
-function MuitiGameMenu(){
-    alert('康明宋恩');
-}
-function settingMenu(){
-    NowPos='settings';
-}
-function moreMenu(){
-    NowPos='More';
-}
