@@ -246,7 +246,7 @@ var defaultUserSettings = {
     DAS: 0,
     ARR: 0
 }
-var defauleSkinSettings = {
+var defaultSkinSettings = {
     skin: 'defaultSkin',
     mode: 'single'
 }
