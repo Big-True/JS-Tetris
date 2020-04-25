@@ -1,6 +1,6 @@
 function drawMenu(gl) {
     var mainMenuPerHeight = windowHeight / 4 * 3 / defaultMenuOptions.length;
-    var mainMenuPerWidth = 3 * mainMenuPerHeight > windowWidth ? windowWidth : 3 * mainMenuPerHeight;
+    var mainMenuPerWidth = 4 * mainMenuPerHeight > windowWidth ? windowWidth : 4 * mainMenuPerHeight;
     gl.drawImage(logo, (windowWidth - windowHeight / 24 * 7) / 2, 0, (windowHeight / 24 * 7), (windowHeight / 4));
     gl.strokeStyle = 'rgb(255,255,255)';
     gl.fillStyle = 'rgb(255,255,255)';
