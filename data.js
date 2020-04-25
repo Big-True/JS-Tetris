@@ -219,8 +219,8 @@ var defaultGameSettings = {
     width: 10,
     height: 20,
     maxHeight: 40,
-    Gravity=1 / 60,
-    softDropSpeed=1,
+    Gravity: 1 / 60,
+    softDropSpeed: 1,
     enableGhost: true,
     enableHardDrop: true,
     enableHold: true,
@@ -242,8 +242,11 @@ var defaultUserSettings = {
     lv: 0,
     xp: 0,
     bgMusicVolume: 5,
-    effectMusicVolume: 5
+    effectMusicVolume: 5,
+    DAS: 0,
+    ARR: 0
 }
 var defauleSkinSettings = {
-
+    skin: 'defaultSkin',
+    mode: 'single'
 }
