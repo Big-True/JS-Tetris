@@ -6,5 +6,5 @@ window.onresize = function () {
 function changeWindowSize() {
     canvas.width = windowWidth = window.innerWidth;
     canvas.height = windowHeight = window.innerHeight;
-    drawMenu(gameCanvas);
+    draw(gameCanvas);
 }

@@ -250,3 +250,4 @@ var defauleSkinSettings = {
     skin: 'defaultSkin',
     mode: 'single'
 }
+var defaultMenuOptions=['单人游戏','多人游戏(会写的)','设置','更多','占空用(']
