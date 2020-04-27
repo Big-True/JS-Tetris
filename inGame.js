@@ -4,6 +4,7 @@ function startGame(obj) {
     obj.next = new Array(obj.maxNextCount);
     obj.rng = new rng();
     obj.lose = false;
+    obj.win = false;
     for (var i = 0; i < obj.maxNextCount; ++i) {
         generateNext(obj);
     }
@@ -15,7 +16,7 @@ function startGame(obj) {
 }
 function inGame(obj) {
     moveBlock(obj);
-    if (!obj.lose) {
+    if (!obj.lose && !obj.win) {
         obj.nextTimeDrop += obj.gravity;
         if (canBePutted(obj.posx, obj.posy - 1, obj.nowBlock, obj.rotation, obj)) {
             while (obj.nextTimeDrop >= 1) {
@@ -42,6 +43,14 @@ function inGame(obj) {
                 obj.lose = true;
             }
         }
+    }
+    switch (obj.mode) {
+        case '40L':
+            if (obj.cleanInfo.cleanedLine >= 40 && obj.win == false) {
+                obj.win = true;
+                var date = new Date()
+                obj.endTime = date.getTime();
+            }
     }
     draw(gameCanvas);
 }
@@ -77,7 +86,7 @@ function moveBlock(obj) {
             keyPress[i] = 0;
         }
     }
-    if (keyDown[key2str[defaultInputKeys.moveLeft]] && obj.lose == false) {
+    if (keyDown[key2str[defaultInputKeys.moveLeft]] && obj.lose == false && obj.win == false) {
         if (keyPress[key2str[defaultInputKeys.moveLeft]] == 1 || keyPress[key2str[defaultInputKeys.moveLeft]] == 1 + defaultUserSettings.DAS || (keyPress[key2str[defaultInputKeys.moveLeft]] > 1 + defaultUserSettings.DAS && (keyPress[key2str[defaultInputKeys.moveLeft]] - 1 - defaultUserSettings.DAS) % defaultUserSettings.ARR == 0)) {
             if (canBePutted(obj.posx - 1, obj.posy, obj.nowBlock, obj.rotation, obj)) {
                 obj.posx--;
@@ -85,7 +94,7 @@ function moveBlock(obj) {
             }
         }
     }
-    if (keyDown[key2str[defaultInputKeys.moveRight]] && obj.lose == false) {
+    if (keyDown[key2str[defaultInputKeys.moveRight]] && obj.lose == false && obj.win == false) {
         if (keyPress[key2str[defaultInputKeys.moveRight]] == 1 || keyPress[key2str[defaultInputKeys.moveRight]] == 1 + defaultUserSettings.DAS || (keyPress[key2str[defaultInputKeys.moveRight]] > 1 + defaultUserSettings.DAS && (keyPress[key2str[defaultInputKeys.moveRight]] - 1 - defaultUserSettings.DAS) % defaultUserSettings.ARR == 0)) {
             if (canBePutted(obj.posx + 1, obj.posy, obj.nowBlock, obj.rotation, obj)) {
                 obj.posx++;
@@ -93,7 +102,7 @@ function moveBlock(obj) {
             }
         }
     }
-    if (keyDown[key2str[defaultInputKeys.softDrop]] && obj.lose == false) {
+    if (keyDown[key2str[defaultInputKeys.softDrop]] && obj.lose == false && obj.win == false) {
         if (keyPress[key2str[defaultInputKeys.softDrop]] % obj.softDropSpeed == 1) {
             if (canBePutted(obj.posx, obj.posy - 1, obj.nowBlock, obj.rotation, obj)) {
                 obj.posy--;
@@ -101,7 +110,7 @@ function moveBlock(obj) {
             }
         }
     }
-    if (keyDown[key2str[defaultInputKeys.hardDrop]] && obj.lose == false) {
+    if (keyDown[key2str[defaultInputKeys.hardDrop]] && obj.lose == false && obj.win == false) {
         if (keyPress[key2str[defaultInputKeys.hardDrop]] == 1) {
             var pos = obj.posy;
             for (var i = obj.posy - 1; i >= 0; --i) {
@@ -120,7 +129,7 @@ function moveBlock(obj) {
             }
         }
     }
-    if (keyDown[key2str[defaultInputKeys.rotateLeft]] && obj.lose == false) {
+    if (keyDown[key2str[defaultInputKeys.rotateLeft]] && obj.lose == false && obj.win == false) {
         if (keyPress[key2str[defaultInputKeys.rotateLeft]] == 1) {
             if (obj.nowBlock == 1) {
                 for (var i = 0; i < 5; ++i) {
@@ -146,7 +155,7 @@ function moveBlock(obj) {
             }
         }
     }
-    if (keyDown[key2str[defaultInputKeys.rotateRight]] && obj.lose == false) {
+    if (keyDown[key2str[defaultInputKeys.rotateRight]] && obj.lose == false && obj.win == false) {
         if (keyPress[key2str[defaultInputKeys.rotateRight]] == 1) {
             if (obj.nowBlock == 1) {
                 for (var i = 0; i < 5; ++i) {
@@ -172,7 +181,7 @@ function moveBlock(obj) {
             }
         }
     }
-    if (keyDown[key2str[defaultInputKeys.hold]] && obj.lose == false) {
+    if (keyDown[key2str[defaultInputKeys.hold]] && obj.lose == false && obj.win == false) {
         if (keyPress[key2str[defaultInputKeys.hold]] == 1) {
             if (obj.enableHold) {
                 if (obj.hold == 0) {
@@ -197,8 +206,9 @@ function moveBlock(obj) {
             }
         }
     }
-    if (keyDown[key2str[defaultInputKeys.restart]]) {
+    if (keyPress[key2str[defaultInputKeys.restart]] == 1) {
         loadgame();
+        playerObj.mode = '40L'
         switch (playerObj.mode) {
             case '40L':
                 load40LMode(playerObj);
@@ -239,6 +249,7 @@ function clearLine(obj) {
                     obj.map[obj.maxHeight - 1][h] = 0;
                 }
                 bigFlag = true;
+                obj.cleanInfo.cleanedLine++;
                 break;
             }
         }

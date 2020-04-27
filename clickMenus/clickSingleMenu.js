@@ -6,7 +6,7 @@ function clickSingleMenu(x, y) {
         switch (item) {
             case 0:
                 loadgame();
-                playerObj.mode='40L'
+                playerObj.mode = '40L'
                 load40LMode(playerObj);
                 startGame(playerObj);
                 break;
@@ -28,6 +28,6 @@ function clickSingleMenu(x, y) {
         }
     }
 }
-function singleMenu(){
-    NowPos='singleMenu'
+function singleMenu() {
+    NowPos = 'singleMenu'
 }

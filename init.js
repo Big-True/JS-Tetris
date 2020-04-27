@@ -1,5 +1,4 @@
 var NowPos = 'menu';
-var date = new Date();
 var logo = new Image();
 logo.src = 'Logo.PNG';
 var G_skin = new Image();

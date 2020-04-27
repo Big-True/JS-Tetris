@@ -253,7 +253,7 @@ var defaultSkinSettings = {
     skin: 'defaultSkin',
     mode: 'single'
 }
-var defaultMenuOptions = ['单人游戏', '多人游戏(会写的)', '设置', '更多', '感谢PYG'];
+var defaultMenuOptions = ['单人游戏', '多人游戏(会写的)', '设置(会写的)', '更多(会写的)', '感谢PYG'];
 var defaultModeOptions = ['40L(算是能用了)', '150L(40L写完就好写了)', '999L(150L写完就好写了)', '马拉松(去掉40L限制就写完了)', '150s(没写呢)', 'C4W(也没写)', 'S4W(还没写)', '返回'];
 var kickWallsRight = [
     [[0, 0], [-1, 0], [-1, 1], [0, -2], [-1, -2]],
@@ -279,3 +279,8 @@ var kickWallsLeftI = [
     [[0, 0], [1, 0], [-2, 0], [1, -2], [-2, 1]],
     [[0, 0], [-2, 0], [1, 0], [-2, -1], [1, 2]]
 ]
+function baseCleanData() {
+    this.combo = 0;
+    this.b2b = false;
+    this.cleanedLine = 0;
+}

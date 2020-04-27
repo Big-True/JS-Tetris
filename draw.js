@@ -61,6 +61,7 @@ function drawMore(gl) {
 function drawSingleGame(gl) {
     gl.lineWidth = 5;
     gl.strokeStyle = 'rgb(255,255,255)';
+    gl.fillStyle = 'rgb(255,255,255)';
     for (var i = 0; i < playerObj.width; ++i) {
         for (var j = 0; j < playerObj.height + 2; ++j) {
             if (playerObj.map[j][i] != 0) {
@@ -89,12 +90,27 @@ function drawSingleGame(gl) {
     }
     if (playerObj.enableNext) {
         for (var i = 0; i < playerObj.nextCount; ++i) {
-            drawBlockIn(gl, gameLayout.mapPosx + playerObj.width * gameLayout.baseUnit + 10, gameLayout.baseUnit + i * gameLayout.baseUnit * 2.5, playerObj.next[i], gameLayout.baseUnit);
+            drawBlockIn(gl, gameLayout.mapPosx + (playerObj.width + 1) * gameLayout.baseUnit, gameLayout.baseUnit + i * gameLayout.baseUnit * 2.5, playerObj.next[i], gameLayout.baseUnit);
         }
     }
     drawBlockIn(gl, gameLayout.mapPosx + playerObj.posx * gameLayout.baseUnit, gameLayout.playHeight - (playerObj.posy + 0.5) * gameLayout.baseUnit, playerObj.nowBlock, gameLayout.baseUnit, playerObj.rotation);
     gl.strokeRect(gameLayout.posx, gameLayout.posy, gameLayout.playWidth, gameLayout.playHeight);
     gl.strokeRect(gameLayout.mapPosx - 5, gameLayout.mapPosy - 5, gameLayout.baseUnit * playerObj.width + 10, gameLayout.baseUnit * playerObj.height + 10);
+    gl.textAlign = 'center';
+    gl.textBaseline = "middle";
+    gl.font = 'bold ' + gameLayout.baseUnit*2 + 'px Material Icons';
+    gl.textAlign = 'start';
+    gl.fillText(playerObj.cleanInfo.cleanedLine,gameLayout.posx+0.5*gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 8)
+    gl.font = 'bold ' + gameLayout.baseUnit + 'px Material Icons';
+    if (playerObj.win) {
+        gl.textAlign = 'center';
+        gl.fillText((playerObj.endTime - playerObj.startTime) / 1000, windowWidth / 2, windowHeight / 2);
+    }
+    else if(!playerObj.lose) {
+        gl.textAlign = 'start';
+        var date = new Date();
+        gl.fillText((date.getTime() - playerObj.startTime) / 1000, gameLayout.posx+0.5*gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 5);
+    }
 }
 function drawBlockIn(gl, x, y, id, size, rotation = 0) {
     for (var i = 0; i < blocks[id][rotation].length; ++i) {
