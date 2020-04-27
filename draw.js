@@ -71,16 +71,16 @@ function drawSingleGame(gl) {
     if (playerObj.enableGhost) {
         var pos = playerObj.posy;
         for (var i = playerObj.posy - 1; i >= 0; --i) {
-            if (canBePutted(playerObj.posx, i, playerObj.nowBlock, playerObj.rotation)) {
+            if (canBePutted(playerObj.posx, i, playerObj.nowBlock, playerObj.rotation, playerObj)) {
                 pos = i;
             }
             else {
                 break;
             }
         }
-        gl.globalAlpha=0.5;
+        gl.globalAlpha = 0.5;
         drawBlockIn(gl, gameLayout.mapPosx + playerObj.posx * gameLayout.baseUnit, gameLayout.playHeight - (pos + 0.5) * gameLayout.baseUnit, playerObj.nowBlock, gameLayout.baseUnit, playerObj.rotation);
-        gl.globalAlpha=1.0;
+        gl.globalAlpha = 1.0;
     }
     if (playerObj.enableHold) {
         if (playerObj.hold != 0) {
