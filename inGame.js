@@ -14,6 +14,7 @@ function startGame(obj) {
     clearInterval(stopId);
     stopId = setInterval('inGame(playerObj);', 1000 / 60);
     NowPos = 'singleGame';
+    gameLayout=new layout(windowWidth,windowHeight);
 }
 function inGame(obj) {
     obj.nextTimeDrop += obj.gravity;

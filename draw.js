@@ -18,8 +18,6 @@ function draw(gl) {
             drawSingleGame(gl);
             break;
     }
-    console.log(NowPos);
-
 }
 function drawBackground(gl) {
     gl.fillStyle = 'rgb(0,0,0)';
@@ -63,6 +61,6 @@ function drawMore(gl) {
 function drawSingleGame(gl) {
     gl.lineWidth = 5;
     gl.strokeStyle = 'rgb(255,255,255)';
-    gl.strokeRect(gameLayout.);
-
+    gl.strokeRect(gameLayout.posx, gameLayout.posy, gameLayout.playWidth, gameLayout.playHeight);
+    gl.strokeRect(gameLayout.mapPosx - 5, gameLayout.mapPosy - 5, gameLayout.baseUnit * playerObj.width + 10, gameLayout.baseUnit * playerObj.height + 10);
 }
