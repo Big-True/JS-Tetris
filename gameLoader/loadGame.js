@@ -1,3 +1,3 @@
-function loadgame(){
-    
+function loadgame(obj){
+    obj=new baseGameObj();
 }

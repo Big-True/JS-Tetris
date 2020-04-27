@@ -14,7 +14,12 @@ function draw(gl) {
         case 'more':
             drawMore(gl);
             break;
+        case 'singleGame':
+            drawSingleGame(gl);
+            break;
     }
+    console.log(NowPos);
+
 }
 function drawBackground(gl) {
     gl.fillStyle = 'rgb(0,0,0)';
@@ -22,7 +27,7 @@ function drawBackground(gl) {
 }
 function drawMenu(gl) {
     var perHeight = windowHeight / 4 * 3 / defaultMenuOptions.length;
-    var perWidth = 4 * perHeight > windowWidth ? windowWidth : 4 * perHeight;
+    var perWidth = Math.min(windowWidth, 4 * perHeight);
     gl.drawImage(logo, (windowWidth - windowHeight / 24 * 7) / 2, 0, (windowHeight / 24 * 7), (windowHeight / 4));
     gl.strokeStyle = 'rgb(255,255,255)';
     gl.fillStyle = 'rgb(255,255,255)';
@@ -53,5 +58,11 @@ function drawSettings(gl) {
 
 }
 function drawMore(gl) {
+
+}
+function drawSingleGame(gl) {
+    gl.lineWidth = 5;
+    gl.strokeStyle = 'rgb(255,255,255)';
+    gl.strokeRect(gameLayout.);
 
 }

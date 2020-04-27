@@ -5,9 +5,10 @@ function clickSingleMenu(x, y) {
         var item = Math.floor(y / mainMenuPerHeight);
         switch (item) {
             case 0:
-                loadgame();
-                load40Lmode();
-                startGame();
+                loadgame(playerObj);
+                playerObj.mode='40L'
+                load40LMode(playerObj);
+                startGame(playerObj);
                 break;
             case 1:
                 break;

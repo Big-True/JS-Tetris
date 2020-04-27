@@ -219,7 +219,8 @@ var defaultGameSettings = {
     width: 10,
     height: 20,
     maxHeight: 40,
-    Gravity: 1 / 60,
+    gravity: 1 / 60,
+    maxStopTime: 30,
     softDropSpeed: 1,
     enableGhost: true,
     enableHardDrop: true,
@@ -229,6 +230,7 @@ var defaultGameSettings = {
     enableRotatr180: false,
     enableNext: true,
     nextCount: 5,
+    maxNextCount: 16,
     blockGeneration: '7bag',
     rotateMode: 'SRS',
     spinMode: 'onlyT',
@@ -250,5 +252,5 @@ var defaultSkinSettings = {
     skin: 'defaultSkin',
     mode: 'single'
 }
-var defaultMenuOptions=['单人游戏','多人游戏(会写的)','设置','更多','占空用('];
-var defaultModeOptions=['40L(没写)','150L(没写)','999L(没写)','马拉松(没写)','150s(没写)','C4W(没写)','S4W(没写)','返回'];
+var defaultMenuOptions = ['单人游戏', '多人游戏(会写的)', '设置', '更多', '占空用('];
+var defaultModeOptions = ['40L(没写)', '150L(没写)', '999L(没写)', '马拉松(没写)', '150s(没写)', 'C4W(没写)', 'S4W(没写)', '返回'];
