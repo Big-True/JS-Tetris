@@ -253,4 +253,4 @@ var defaultSkinSettings = {
     mode: 'single'
 }
 var defaultMenuOptions = ['单人游戏', '多人游戏(会写的)', '设置', '更多', '占空用('];
-var defaultModeOptions = ['40L(没写)', '150L(没写)', '999L(没写)', '马拉松(没写)', '150s(没写)', 'C4W(没写)', 'S4W(没写)', '返回'];
+var defaultModeOptions = ['40L(写着呢)', '150L(40L写完就好写了)', '999L(150L写完就好写了)', '马拉松(去掉40L限制就写完了)', '150s(没写呢)', 'C4W(也没写)', 'S4W(还没写)', '返回'];
