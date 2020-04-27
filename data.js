@@ -220,8 +220,9 @@ var defaultGameSettings = {
     height: 20,
     maxHeight: 40,
     gravity: 1 / 60,
-    maxStopTime: 30,
-    softDropSpeed: 1,
+    maxLockTime: 60,
+    maxRotateTime: 16,
+    softDropSpeed: 10,
     enableGhost: true,
     enableHardDrop: true,
     enableHold: true,
@@ -245,8 +246,8 @@ var defaultUserSettings = {
     xp: 0,
     bgMusicVolume: 5,
     effectMusicVolume: 5,
-    DAS: 0,
-    ARR: 0
+    DAS: 10,
+    ARR: 2
 }
 var defaultSkinSettings = {
     skin: 'defaultSkin',

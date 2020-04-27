@@ -68,6 +68,20 @@ function drawSingleGame(gl) {
             }
         }
     }
+    if (playerObj.enableGhost) {
+        var pos = playerObj.posy;
+        for (var i = playerObj.posy - 1; i >= 0; --i) {
+            if (canBePutted(playerObj.posx, i, playerObj.nowBlock, playerObj.rotation)) {
+                pos = i;
+            }
+            else {
+                break;
+            }
+        }
+        gl.globalAlpha=0.5;
+        drawBlockIn(gl, gameLayout.mapPosx + playerObj.posx * gameLayout.baseUnit, gameLayout.playHeight - (pos + 0.5) * gameLayout.baseUnit, playerObj.nowBlock, gameLayout.baseUnit, playerObj.rotation);
+        gl.globalAlpha=1.0;
+    }
     if (playerObj.enableHold) {
         if (playerObj.hold != 0) {
             drawBlockIn(gl, gameLayout.posx + 10, gameLayout.posy + gameLayout.baseUnit, playerObj.hold, gameLayout.baseUnit);
@@ -75,10 +89,10 @@ function drawSingleGame(gl) {
     }
     if (playerObj.enableNext) {
         for (var i = 0; i < playerObj.nextCount; ++i) {
-            drawBlockIn(gl, gameLayout.mapPosx + playerObj.width * gameLayout.baseUnit + 10, gameLayout.baseUnit + i * gameLayout.baseUnit * 2.5, playerObj.next[i],gameLayout.baseUnit);
+            drawBlockIn(gl, gameLayout.mapPosx + playerObj.width * gameLayout.baseUnit + 10, gameLayout.baseUnit + i * gameLayout.baseUnit * 2.5, playerObj.next[i], gameLayout.baseUnit);
         }
     }
-    drawBlockIn(gl,gameLayout.mapPosx+playerObj.posx*gameLayout.baseUnit,gameLayout.playHeight-(playerObj.posy+0.5)*gameLayout.baseUnit,playerObj.nowBlock,gameLayout.baseUnit,playerObj.rotation);
+    drawBlockIn(gl, gameLayout.mapPosx + playerObj.posx * gameLayout.baseUnit, gameLayout.playHeight - (playerObj.posy + 0.5) * gameLayout.baseUnit, playerObj.nowBlock, gameLayout.baseUnit, playerObj.rotation);
     gl.strokeRect(gameLayout.posx, gameLayout.posy, gameLayout.playWidth, gameLayout.playHeight);
     gl.strokeRect(gameLayout.mapPosx - 5, gameLayout.mapPosy - 5, gameLayout.baseUnit * playerObj.width + 10, gameLayout.baseUnit * playerObj.height + 10);
 }
