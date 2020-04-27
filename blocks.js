@@ -140,3 +140,4 @@ var Z_block = [
         [1,0,0]
     ]
 ]
+var blocks=[undefined,I_block,J_block,L_block,O_block,S_block,T_block,Z_block,]

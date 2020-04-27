@@ -1,6 +1,6 @@
 function baseGameObj() {
-    for(var i in defaultGameSettings){
-        this[i]=defaultGameSettings[i];
+    for (var i in defaultGameSettings) {
+        this[i] = defaultGameSettings[i];
     };
     this.map = new Array();
     for (var i = 0; i < this.maxHeight; ++i) {

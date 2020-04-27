@@ -1,5 +1,5 @@
 function startGame(obj) {
-    obj.hold = -1;
+    obj.hold = 0;
     obj.next = new Array(obj.maxNextCount);
     obj.rng = new rng();
     for (var i = 0; i < obj.maxNextCount; ++i) {
@@ -9,6 +9,7 @@ function startGame(obj) {
     obj.nextTimeDrop = 0;
     obj.posx = 3;
     obj.posy = 22;
+    obj.rotation=0;
     obj.minHeight = obj.posy;
     generateNext(obj);
     clearInterval(stopId);
