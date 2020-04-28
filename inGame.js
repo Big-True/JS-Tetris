@@ -1,4 +1,5 @@
 function startGame(obj) {
+    obj.cleanInfo = new baseCleanData();
     obj.hold = 0;
     obj.holdUsed = false;
     obj.next = new Array(obj.maxNextCount);
@@ -46,6 +47,18 @@ function inGame(obj) {
     }
     switch (obj.mode) {
         case '40L':
+            if (obj.cleanInfo.cleanedLine >= 40 && obj.win == false) {
+                obj.win = true;
+                var date = new Date()
+                obj.endTime = date.getTime();
+            }
+        case '150L':
+            if (obj.cleanInfo.cleanedLine >= 40 && obj.win == false) {
+                obj.win = true;
+                var date = new Date()
+                obj.endTime = date.getTime();
+            }
+        case '999L':
             if (obj.cleanInfo.cleanedLine >= 40 && obj.win == false) {
                 obj.win = true;
                 var date = new Date()
@@ -207,13 +220,10 @@ function moveBlock(obj) {
         }
     }
     if (keyPress[key2str[defaultInputKeys.restart]] == 1) {
+        var mode = playerObj.mode;
         loadgame();
-        playerObj.mode = '40L'
-        switch (playerObj.mode) {
-            case '40L':
-                load40LMode(playerObj);
-                break;
-        }
+        playerObj.mode = mode;
+        loadMode(playerObj);
         startGame(playerObj);
     }
 }

@@ -7,14 +7,26 @@ function clickSingleMenu(x, y) {
             case 0:
                 loadgame();
                 playerObj.mode = '40L'
-                load40LMode(playerObj);
+                loadMode(playerObj);
                 startGame(playerObj);
                 break;
             case 1:
+                loadgame();
+                playerObj.mode = '150L'
+                loadMode(playerObj);
+                startGame(playerObj);
                 break;
             case 2:
+                loadgame();
+                playerObj.mode = '999L'
+                loadMode(playerObj);
+                startGame(playerObj);
                 break;
             case 3:
+                loadgame();
+                playerObj.mode = 'marathon'
+                loadMode(playerObj);
+                startGame(playerObj);
                 break;
             case 4:
                 break;

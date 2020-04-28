@@ -96,21 +96,7 @@ function drawSingleGame(gl) {
     drawBlockIn(gl, gameLayout.mapPosx + playerObj.posx * gameLayout.baseUnit, gameLayout.playHeight - (playerObj.posy + 0.5) * gameLayout.baseUnit, playerObj.nowBlock, gameLayout.baseUnit, playerObj.rotation);
     gl.strokeRect(gameLayout.posx, gameLayout.posy, gameLayout.playWidth, gameLayout.playHeight);
     gl.strokeRect(gameLayout.mapPosx - 5, gameLayout.mapPosy - 5, gameLayout.baseUnit * playerObj.width + 10, gameLayout.baseUnit * playerObj.height + 10);
-    gl.textAlign = 'center';
-    gl.textBaseline = "middle";
-    gl.font = 'bold ' + gameLayout.baseUnit*2 + 'px Material Icons';
-    gl.textAlign = 'start';
-    gl.fillText(playerObj.cleanInfo.cleanedLine,gameLayout.posx+0.5*gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 8)
-    gl.font = 'bold ' + gameLayout.baseUnit + 'px Material Icons';
-    if (playerObj.win) {
-        gl.textAlign = 'center';
-        gl.fillText((playerObj.endTime - playerObj.startTime) / 1000, windowWidth / 2, windowHeight / 2);
-    }
-    else if(!playerObj.lose) {
-        gl.textAlign = 'start';
-        var date = new Date();
-        gl.fillText((date.getTime() - playerObj.startTime) / 1000, gameLayout.posx+0.5*gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 5);
-    }
+    drawMode(gl);
 }
 function drawBlockIn(gl, x, y, id, size, rotation = 0) {
     for (var i = 0; i < blocks[id][rotation].length; ++i) {
@@ -123,4 +109,48 @@ function drawBlockIn(gl, x, y, id, size, rotation = 0) {
 }
 function drawSingleBlock(gl, x, y, id, size) {
     gl.drawImage(skins[id], x, y, size, size);
+}
+function drawMode(gl) {
+    switch (playerObj.mode) {
+        case '40L':
+        case '150L':
+        case '999L':
+            gl.lineWidth = 5;
+            gl.strokeStyle = 'rgb(255,255,255)';
+            gl.fillStyle = 'rgb(255,255,255)';
+            gl.textAlign = 'center';
+            gl.textBaseline = "middle";
+            gl.font = 'bold ' + gameLayout.baseUnit * 1.5 + 'px Material Icons';
+            gl.textAlign = 'start';
+            gl.fillText(playerObj.goal, gameLayout.posx + 0.5 * gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 6, 5 * gameLayout.baseUnit);
+            gl.fillText('------', gameLayout.posx + 0.5 * gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 7.2, 5 * gameLayout.baseUnit);
+            gl.fillText(playerObj.cleanInfo.cleanedLine, gameLayout.posx + 0.5 * gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 8, 5 * gameLayout.baseUnit);
+            gl.font = 'bold ' + gameLayout.baseUnit + 'px Material Icons';
+            if (playerObj.win) {
+                gl.textAlign = 'center';
+                gl.fillText((playerObj.endTime - playerObj.startTime) / 1000, windowWidth / 2, windowHeight / 2);
+            }
+            else if (!playerObj.lose) {
+                gl.textAlign = 'start';
+                var date = new Date();
+                gl.fillText((date.getTime() - playerObj.startTime) / 1000, gameLayout.posx + 0.5 * gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 4);
+            }
+            break;
+        case 'marathon':
+            gl.lineWidth = 5;
+            gl.strokeStyle = 'rgb(255,255,255)';
+            gl.fillStyle = 'rgb(255,255,255)';
+            gl.textAlign = 'center';
+            gl.textBaseline = "middle";
+            gl.font = 'bold ' + gameLayout.baseUnit * 1.5 + 'px Material Icons';
+            gl.textAlign = 'start';
+            gl.fillText(playerObj.cleanInfo.cleanedLine, gameLayout.posx + 0.5 * gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 8, 5 * gameLayout.baseUnit);
+            gl.font = 'bold ' + gameLayout.baseUnit + 'px Material Icons';
+            if (!playerObj.lose) {
+                gl.textAlign = 'start';
+                var date = new Date();
+                gl.fillText((date.getTime() - playerObj.startTime) / 1000, gameLayout.posx + 0.5 * gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 4);
+            }
+            break;
+    }
 }
