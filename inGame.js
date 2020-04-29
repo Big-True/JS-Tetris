@@ -8,19 +8,25 @@ function startGame(obj) {
     obj.win = false;
     obj.rotateUsed = 0;
     obj.ready = 3;
+    obj.passedTime = 0;
+    obj.pause = false;
     for (var i = 0; i < obj.maxNextCount; ++i) {
         generateNext(obj);
     }
     newBlock(obj);
     clearInterval(stopId);
     stopId = setInterval('inGame(playerObj);', 1000 / 60);
-    obj.startId = setInterval('playerObj.ready--;if(playerObj.ready==0){clearInterval(playerObj.startId);var date=new Date();playerObj.startTime=playerObj.endTime=date.getTime();}', 1000);
+    obj.startId = setInterval('if(playerObj.pause==false){playerObj.ready--};if(playerObj.ready==0){clearInterval(playerObj.startId);var date=new Date();playerObj.startTime=playerObj.endTime=date.getTime();}', 1000);
     NowPos = 'singleGame';
     gameLayout = new layout(windowWidth, windowHeight);
 }
 function inGame(obj) {
-    moveBlock(obj);
-    if (!obj.lose && !obj.win && obj.ready == 0) {
+    gameInput(obj);
+    if (!obj.lose && !obj.win && obj.ready == 0 && obj.pause == false) {
+        obj.passedTime += 1000 / 60;
+        if (obj.passedTime > 1000 * obj.goal) {
+            obj.win = true;
+        }
         obj.nextTimeDrop += obj.gravity;
         if (canBePutted(obj.posx, obj.posy - 1, obj.nowBlock, obj.rotation, obj)) {
             while (obj.nextTimeDrop >= 1) {
@@ -29,6 +35,7 @@ function inGame(obj) {
                     obj.minHeight = Math.min(obj.posy, obj.minHeight);
                     obj.nextTimeDrop--;
                     obj.lockTime = 0;
+                    obj.cleanInfo.kickWall = 0;
                 }
                 else {
                     obj.lockTime++;
@@ -42,9 +49,35 @@ function inGame(obj) {
         if (obj.lockTime > obj.maxLockTime) {
             put(obj.posx, obj.posy, obj.nowBlock, obj.rotation, obj);
             clearLine(obj);
+            if (obj.mode == 'C4W') {
+                for (var i = 0; i < obj.height - 5; ++i) {
+                    for (var j = 0; j < obj.width; ++j) {
+                        if ((j < obj.width / 2 - 2 || j > obj.width / 2 + 1)) {
+                            obj.map[i][j] = 8;
+                        }
+                    }
+                }
+            }
+            if (obj.mode == 'S4W') {
+                for (var i = 0; i < obj.height - 5; ++i) {
+                    for (var j = 0; j < obj.width; ++j) {
+                        if (j > 3) {
+                            obj.map[i][j] = 8;
+                        }
+                    }
+                }
+            }
             newBlock(obj);
             if (!canBePutted(obj.posx, obj.posy, obj.nowBlock, obj.rotation, obj)) {
                 obj.lose = true;
+            }
+            if (obj.mode == 'C4W' || obj.mode == 'S4W') {
+                if (obj.cleanInfo.combo == -1) {
+                    obj.lose = true;
+                }
+                else {
+                    obj.lastCombo = obj.cleanInfo.combo
+                }
             }
         }
     }
@@ -93,7 +126,7 @@ function put(x, y, id, rotation, obj) {
         }
     }
 }
-function moveBlock(obj) {
+function gameInput(obj) {
     for (var i in keyDown) {
         if (keyDown[i]) {
             keyPress[i]++;
@@ -102,12 +135,13 @@ function moveBlock(obj) {
             keyPress[i] = 0;
         }
     }
-    if (obj.lose == false && obj.win == false && obj.ready == 0) {
+    if (obj.lose == false && obj.win == false && obj.ready == 0 && obj.pause == false) {
         if (keyDown[key2str[defaultInputKeys.moveLeft]]) {
             if (keyPress[key2str[defaultInputKeys.moveLeft]] == 1 || keyPress[key2str[defaultInputKeys.moveLeft]] == 1 + defaultUserSettings.DAS || (keyPress[key2str[defaultInputKeys.moveLeft]] > 1 + defaultUserSettings.DAS && (keyPress[key2str[defaultInputKeys.moveLeft]] - 1 - defaultUserSettings.DAS) % defaultUserSettings.ARR == 0)) {
                 if (canBePutted(obj.posx - 1, obj.posy, obj.nowBlock, obj.rotation, obj)) {
                     obj.posx--;
                     obj.lockTime = 0;
+                    obj.cleanInfo.kickWall = 0;
                 }
             }
         }
@@ -116,6 +150,7 @@ function moveBlock(obj) {
                 if (canBePutted(obj.posx + 1, obj.posy, obj.nowBlock, obj.rotation, obj)) {
                     obj.posx++;
                     obj.lockTime = 0;
+                    obj.cleanInfo.kickWall = 0;
                 }
             }
         }
@@ -124,6 +159,7 @@ function moveBlock(obj) {
                 if (canBePutted(obj.posx, obj.posy - 1, obj.nowBlock, obj.rotation, obj)) {
                     obj.posy--;
                     obj.lockTime = 0;
+                    obj.cleanInfo.kickWall = 0;
                 }
             }
         }
@@ -138,11 +174,40 @@ function moveBlock(obj) {
                         break;
                     }
                 }
+                if (pos < obj.posy) {
+                    obj.cleanInfo.kickWall = 0;
+                }
                 put(obj.posx, pos, obj.nowBlock, obj.rotation, obj);
                 clearLine(obj);
+                if (obj.mode == 'C4W') {
+                    for (var i = 0; i < obj.height - 5; ++i) {
+                        for (var j = 0; j < obj.width; ++j) {
+                            if ((j < obj.width / 2 - 2 || j > obj.width / 2 + 1)) {
+                                obj.map[i][j] = 8;
+                            }
+                        }
+                    }
+                }
+                if (obj.mode == 'S4W') {
+                    for (var i = 0; i < obj.height - 5; ++i) {
+                        for (var j = 0; j < obj.width; ++j) {
+                            if (j > 3) {
+                                obj.map[i][j] = 8;
+                            }
+                        }
+                    }
+                }
                 newBlock(obj);
                 if (!canBePutted(obj.posx, obj.posy, obj.nowBlock, obj.rotation, obj)) {
                     obj.lose = true;
+                }
+                if (obj.mode == 'C4W' || obj.mode == 'S4W') {
+                    if (obj.cleanInfo.combo == -1) {
+                        obj.lose = true;
+                    }
+                    else {
+                        obj.lastCombo = obj.cleanInfo.combo
+                    }
                 }
             }
         }
@@ -155,6 +220,10 @@ function moveBlock(obj) {
                             obj.posx += kickWallsLeftI[obj.rotation][i][0];
                             obj.posy += kickWallsLeftI[obj.rotation][i][1];
                             obj.rotation = (obj.rotation + 3) % 4;
+                            obj.cleanInfo.kickWall = 0;
+                            if (i > 0) {
+                                obj.cleanInfo.kickWall = obj.nowBlock;
+                            }
                             break;
                         }
                     }
@@ -166,6 +235,10 @@ function moveBlock(obj) {
                             obj.posx += kickWallsLeft[obj.rotation][i][0];
                             obj.posy += kickWallsLeft[obj.rotation][i][1];
                             obj.rotation = (obj.rotation + 3) % 4;
+                            obj.cleanInfo.kickWall = 0;
+                            if (i > 0) {
+                                obj.cleanInfo.kickWall = obj.nowBlock;
+                            }
                             break;
                         }
                     }
@@ -181,6 +254,10 @@ function moveBlock(obj) {
                             obj.posx += kickWallsRightI[obj.rotation][i][0];
                             obj.posy += kickWallsRightI[obj.rotation][i][1];
                             obj.rotation = (obj.rotation + 1) % 4;
+                            obj.cleanInfo.kickWall = 0;
+                            if (i > 0) {
+                                obj.cleanInfo.kickWall = obj.nowBlock;
+                            }
                             break;
                         }
                     }
@@ -192,6 +269,10 @@ function moveBlock(obj) {
                             obj.posx += kickWallsRight[obj.rotation][i][0];
                             obj.posy += kickWallsRight[obj.rotation][i][1];
                             obj.rotation = (obj.rotation + 1) % 4;
+                            obj.cleanInfo.kickWall = 0;
+                            if (i > 0) {
+                                obj.cleanInfo.kickWall = obj.nowBlock;
+                            }
                             break;
                         }
                     }
@@ -203,6 +284,7 @@ function moveBlock(obj) {
                 if (canBePutted(obj.posx, obj.posy, obj.nowBlock, (obj.rotation + 2) % 4, obj)) {
                     obj.lockTime = 0;
                     obj.rotation = (obj.rotation + 2) % 4;
+                    obj.cleanInfo.kickWall = 0;
                 }
             }
         }
@@ -214,6 +296,7 @@ function moveBlock(obj) {
                             obj.hold = obj.nowBlock;
                             newBlock(obj);
                             obj.holdUsed = true;
+                            obj.cleanInfo.kickWall = 0;
                         }
                     }
                     else {
@@ -226,6 +309,7 @@ function moveBlock(obj) {
                             obj.rotation = 0;
                             obj.posx = 3;
                             obj.posy = obj.height + 2;
+                            obj.cleanInfo.kickWall = 0;
                         }
                     }
                 }
@@ -243,7 +327,10 @@ function moveBlock(obj) {
     if (keyPress[key2str[defaultInputKeys.back]] == 1) {
         clearInterval(playerObj.startId);
         clearInterval(stopId);
-        NowPos = 'singleMenu'
+        NowPos = 'singleMenu';
+    }
+    if (keyPress[key2str[defaultInputKeys.pause]] == 1) {
+        obj.pause = !obj.pause;
     }
 }
 function newBlock(obj) {
@@ -260,6 +347,7 @@ function newBlock(obj) {
 }
 function clearLine(obj) {
     var bigFlag = false;
+    var num = 0;
     do {
         bigFlag = false;
         for (var i = 0; i < obj.maxHeight; ++i) {
@@ -271,6 +359,7 @@ function clearLine(obj) {
                 }
             }
             if (flag) {
+                num++;
                 for (var h = i; h < obj.maxHeight - 1; ++h) {
                     for (var k = 0; k < obj.width; ++k) {
                         obj.map[h][k] = obj.map[h + 1][k];
@@ -285,4 +374,11 @@ function clearLine(obj) {
             }
         }
     } while (bigFlag);
+    if (num > 0) {
+        obj.cleanInfo.combo++;
+    }
+    else {
+        obj.cleanInfo.combo = -1;
+    }
+    return num;
 }

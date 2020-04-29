@@ -85,6 +85,14 @@ function drawSingleGame(gl) {
     else {
         drawReady(gl);
     }
+    if (playerObj.pause && playerObj.lose == false && playerObj.win == false) {
+        gl.strokeStyle = 'rgb(255,255,255)';
+        gl.fillStyle = 'rgb(255,255,255)';
+        gl.textAlign = 'center';
+        gl.textBaseline = "middle";
+        gl.font = 'bold ' + gameLayout.baseUnit * 5 + 'px Material Icons';
+        gl.fillText('Pause', windowWidth / 2, windowHeight / 4);
+    }
 }
 function drawMap(gl, layout, obj) {
     for (var i = 0; i < obj.width; ++i) {
@@ -122,15 +130,14 @@ function drawSingleBlock(gl, x, y, id, size) {
     gl.drawImage(skins[id], x, y, size, size);
 }
 function drawMode(gl) {
+    gl.lineWidth = 5;
+    gl.strokeStyle = 'rgb(255,255,255)';
+    gl.fillStyle = 'rgb(255,255,255)';
+    gl.textBaseline = "middle";
     switch (playerObj.mode) {
         case '40L':
         case '150L':
         case '999L':
-            gl.lineWidth = 5;
-            gl.strokeStyle = 'rgb(255,255,255)';
-            gl.fillStyle = 'rgb(255,255,255)';
-            gl.textAlign = 'center';
-            gl.textBaseline = "middle";
             gl.font = 'bold ' + gameLayout.baseUnit * 1.5 + 'px Material Icons';
             gl.textAlign = 'start';
             gl.fillText(playerObj.goal, gameLayout.posx + 0.5 * gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 6, 5 * gameLayout.baseUnit);
@@ -139,30 +146,49 @@ function drawMode(gl) {
             gl.font = 'bold ' + gameLayout.baseUnit + 'px Material Icons';
             if (playerObj.win) {
                 gl.textAlign = 'center';
-                gl.fillText((playerObj.endTime - playerObj.startTime) / 1000, windowWidth / 2, windowHeight / 2);
+                gl.fillText('Time:' + (playerObj.passedTime / 1000).toFixed(3), windowWidth / 2, windowHeight / 2);
             }
-            else if (!playerObj.lose) {
+            else if (playerObj.lose) {
+                gl.fillText((playerObj.passedTime / 1000).toFixed(3), gameLayout.posx + 0.5 * gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 4);
+            }
+            else {
                 gl.textAlign = 'start';
-                var date = new Date();
-                gl.fillText((date.getTime() - playerObj.startTime) / 1000, gameLayout.posx + 0.5 * gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 4);
+                gl.fillText((playerObj.passedTime / 1000).toFixed(3), gameLayout.posx + 0.5 * gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 4);
             }
             break;
         case 'marathon':
-            gl.lineWidth = 5;
-            gl.strokeStyle = 'rgb(255,255,255)';
-            gl.fillStyle = 'rgb(255,255,255)';
-            gl.textAlign = 'center';
-            gl.textBaseline = "middle";
             gl.font = 'bold ' + gameLayout.baseUnit * 1.5 + 'px Material Icons';
             gl.textAlign = 'start';
             gl.fillText(playerObj.cleanInfo.cleanedLine, gameLayout.posx + 0.5 * gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 8, 5 * gameLayout.baseUnit);
             gl.font = 'bold ' + gameLayout.baseUnit + 'px Material Icons';
-            if (!playerObj.lose) {
+            gl.textAlign = 'start';
+            gl.fillText((playerObj.passedTime / 1000).toFixed(3), gameLayout.posx + 0.5 * gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 4);
+            break;
+        case 'C4W':
+        case 'S4W':
+            gl.font = 'bold ' + gameLayout.baseUnit * 1.5 + 'px Material Icons';
+            if (playerObj.lose) {
+                gl.textAlign = 'center';
+                gl.fillText('combo:' + (playerObj.lastCombo + 1), windowWidth / 2, windowHeight / 2);
+            }
+            else {
                 gl.textAlign = 'start';
-                var date = new Date();
-                gl.fillText((date.getTime() - playerObj.startTime) / 1000, gameLayout.posx + 0.5 * gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 4);
+                gl.fillText('combo:' + (playerObj.cleanInfo.combo + 1), gameLayout.posx + 0.5 * gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 8, 5 * gameLayout.baseUnit);
             }
             break;
+        case '150s':
+            gl.font = 'bold ' + gameLayout.baseUnit + 'px Material Icons';
+            gl.textAlign = 'start';
+            gl.fillText((playerObj.passedTime / 1000).toFixed(3), gameLayout.posx + 0.5 * gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 4);
+            gl.font = 'bold ' + gameLayout.baseUnit * 1.5 + 'px Material Icons';
+            if (playerObj.win) {
+                gl.textAlign = 'center';
+                gl.fillText('cleared:' + playerObj.cleanInfo.cleanedLine, windowWidth / 2, windowHeight / 2);
+            }
+            else {
+                gl.textAlign = 'start';
+                gl.fillText(playerObj.cleanInfo.cleanedLine, gameLayout.posx + 0.5 * gameLayout.baseUnit, gameLayout.playHeight - gameLayout.baseUnit * 8, 5 * gameLayout.baseUnit);
+            }
     }
 }
 function drawReady(gl) {
