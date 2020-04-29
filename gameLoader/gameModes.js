@@ -1,21 +1,13 @@
 function load40LMode(obj) {
     obj.goal = 40;
-    var date = new Date();
-    obj.startTime = obj.endTime = date.getTime();
 }
 function load150LMode(obj) {
     obj.goal = 150;
-    var date = new Date();
-    obj.startTime = obj.endTime = date.getTime();
 }
 function load999LMode(obj) {
     obj.goal = 999;
-    var date = new Date();
-    obj.startTime = obj.endTime = date.getTime();
 }
 function loadMaraMode(obj) {
-    var date = new Date();
-    obj.startTime = obj.endTime = date.getTime();
 }
 function loadMode(obj) {
     switch (obj.mode) {

@@ -6,24 +6,27 @@ function startGame(obj) {
     obj.rng = new rng();
     obj.lose = false;
     obj.win = false;
+    obj.rotateUsed = 0;
+    obj.ready = 3;
     for (var i = 0; i < obj.maxNextCount; ++i) {
         generateNext(obj);
     }
     newBlock(obj);
     clearInterval(stopId);
     stopId = setInterval('inGame(playerObj);', 1000 / 60);
+    obj.startId = setInterval('playerObj.ready--;if(playerObj.ready==0){clearInterval(playerObj.startId);var date=new Date();playerObj.startTime=playerObj.endTime=date.getTime();}', 1000);
     NowPos = 'singleGame';
     gameLayout = new layout(windowWidth, windowHeight);
 }
 function inGame(obj) {
     moveBlock(obj);
-    if (!obj.lose && !obj.win) {
+    if (!obj.lose && !obj.win && obj.ready == 0) {
         obj.nextTimeDrop += obj.gravity;
         if (canBePutted(obj.posx, obj.posy - 1, obj.nowBlock, obj.rotation, obj)) {
             while (obj.nextTimeDrop >= 1) {
                 if (canBePutted(obj.posx, obj.posy - 1, obj.nowBlock, obj.rotation, obj)) {
                     obj.posy--;
-                    obj.minHeight = Math.min(obj.posy, obj.minHeight, obj.nowBlock, obj.rotation);
+                    obj.minHeight = Math.min(obj.posy, obj.minHeight);
                     obj.nextTimeDrop--;
                     obj.lockTime = 0;
                 }
@@ -53,13 +56,13 @@ function inGame(obj) {
                 obj.endTime = date.getTime();
             }
         case '150L':
-            if (obj.cleanInfo.cleanedLine >= 40 && obj.win == false) {
+            if (obj.cleanInfo.cleanedLine >= 150 && obj.win == false) {
                 obj.win = true;
                 var date = new Date()
                 obj.endTime = date.getTime();
             }
         case '999L':
-            if (obj.cleanInfo.cleanedLine >= 40 && obj.win == false) {
+            if (obj.cleanInfo.cleanedLine >= 999 && obj.win == false) {
                 obj.win = true;
                 var date = new Date()
                 obj.endTime = date.getTime();
@@ -99,121 +102,131 @@ function moveBlock(obj) {
             keyPress[i] = 0;
         }
     }
-    if (keyDown[key2str[defaultInputKeys.moveLeft]] && obj.lose == false && obj.win == false) {
-        if (keyPress[key2str[defaultInputKeys.moveLeft]] == 1 || keyPress[key2str[defaultInputKeys.moveLeft]] == 1 + defaultUserSettings.DAS || (keyPress[key2str[defaultInputKeys.moveLeft]] > 1 + defaultUserSettings.DAS && (keyPress[key2str[defaultInputKeys.moveLeft]] - 1 - defaultUserSettings.DAS) % defaultUserSettings.ARR == 0)) {
-            if (canBePutted(obj.posx - 1, obj.posy, obj.nowBlock, obj.rotation, obj)) {
-                obj.posx--;
-                obj.lockTime = 0;
-            }
-        }
-    }
-    if (keyDown[key2str[defaultInputKeys.moveRight]] && obj.lose == false && obj.win == false) {
-        if (keyPress[key2str[defaultInputKeys.moveRight]] == 1 || keyPress[key2str[defaultInputKeys.moveRight]] == 1 + defaultUserSettings.DAS || (keyPress[key2str[defaultInputKeys.moveRight]] > 1 + defaultUserSettings.DAS && (keyPress[key2str[defaultInputKeys.moveRight]] - 1 - defaultUserSettings.DAS) % defaultUserSettings.ARR == 0)) {
-            if (canBePutted(obj.posx + 1, obj.posy, obj.nowBlock, obj.rotation, obj)) {
-                obj.posx++;
-                obj.lockTime = 0;
-            }
-        }
-    }
-    if (keyDown[key2str[defaultInputKeys.softDrop]] && obj.lose == false && obj.win == false) {
-        if (keyPress[key2str[defaultInputKeys.softDrop]] % obj.softDropSpeed == 1) {
-            if (canBePutted(obj.posx, obj.posy - 1, obj.nowBlock, obj.rotation, obj)) {
-                obj.posy--;
-                obj.lockTime = 0;
-            }
-        }
-    }
-    if (keyDown[key2str[defaultInputKeys.hardDrop]] && obj.lose == false && obj.win == false) {
-        if (keyPress[key2str[defaultInputKeys.hardDrop]] == 1) {
-            var pos = obj.posy;
-            for (var i = obj.posy - 1; i >= 0; --i) {
-                if (canBePutted(obj.posx, i, obj.nowBlock, obj.rotation, obj)) {
-                    pos = i;
-                }
-                else {
-                    break;
+    if (obj.lose == false && obj.win == false && obj.ready == 0) {
+        if (keyDown[key2str[defaultInputKeys.moveLeft]]) {
+            if (keyPress[key2str[defaultInputKeys.moveLeft]] == 1 || keyPress[key2str[defaultInputKeys.moveLeft]] == 1 + defaultUserSettings.DAS || (keyPress[key2str[defaultInputKeys.moveLeft]] > 1 + defaultUserSettings.DAS && (keyPress[key2str[defaultInputKeys.moveLeft]] - 1 - defaultUserSettings.DAS) % defaultUserSettings.ARR == 0)) {
+                if (canBePutted(obj.posx - 1, obj.posy, obj.nowBlock, obj.rotation, obj)) {
+                    obj.posx--;
+                    obj.lockTime = 0;
                 }
             }
-            put(obj.posx, pos, obj.nowBlock, obj.rotation, obj);
-            clearLine(obj);
-            newBlock(obj);
-            if (!canBePutted(obj.posx, obj.posy, obj.nowBlock, obj.rotation, obj)) {
-                obj.lose = true;
+        }
+        if (keyDown[key2str[defaultInputKeys.moveRight]]) {
+            if (keyPress[key2str[defaultInputKeys.moveRight]] == 1 || keyPress[key2str[defaultInputKeys.moveRight]] == 1 + defaultUserSettings.DAS || (keyPress[key2str[defaultInputKeys.moveRight]] > 1 + defaultUserSettings.DAS && (keyPress[key2str[defaultInputKeys.moveRight]] - 1 - defaultUserSettings.DAS) % defaultUserSettings.ARR == 0)) {
+                if (canBePutted(obj.posx + 1, obj.posy, obj.nowBlock, obj.rotation, obj)) {
+                    obj.posx++;
+                    obj.lockTime = 0;
+                }
             }
         }
-    }
-    if (keyDown[key2str[defaultInputKeys.rotateLeft]] && obj.lose == false && obj.win == false) {
-        if (keyPress[key2str[defaultInputKeys.rotateLeft]] == 1) {
-            if (obj.nowBlock == 1) {
-                for (var i = 0; i < 5; ++i) {
-                    if (canBePutted(obj.posx + kickWallsLeftI[obj.rotation][i][0], obj.posy + kickWallsLeftI[obj.rotation][i][1], obj.nowBlock, (obj.rotation + 3) % 4, obj)) {
-                        obj.lockTime = 0;
-                        obj.posx += kickWallsLeftI[obj.rotation][i][0];
-                        obj.posy += kickWallsLeftI[obj.rotation][i][1];
-                        obj.rotation = (obj.rotation + 3) % 4;
+        if (keyDown[key2str[defaultInputKeys.softDrop]]) {
+            if (keyPress[key2str[defaultInputKeys.softDrop]] % obj.softDropSpeed == 1) {
+                if (canBePutted(obj.posx, obj.posy - 1, obj.nowBlock, obj.rotation, obj)) {
+                    obj.posy--;
+                    obj.lockTime = 0;
+                }
+            }
+        }
+        if (keyDown[key2str[defaultInputKeys.hardDrop]] && obj.enableHardDrop) {
+            if (keyPress[key2str[defaultInputKeys.hardDrop]] == 1) {
+                var pos = obj.posy;
+                for (var i = obj.posy - 1; i >= 0; --i) {
+                    if (canBePutted(obj.posx, i, obj.nowBlock, obj.rotation, obj)) {
+                        pos = i;
+                    }
+                    else {
                         break;
                     }
                 }
-            }
-            else {
-                for (var i = 0; i < 5; ++i) {
-                    if (canBePutted(obj.posx + kickWallsLeft[obj.rotation][i][0], obj.posy + kickWallsLeft[obj.rotation][i][1], obj.nowBlock, (obj.rotation + 3) % 4, obj)) {
-                        obj.lockTime = 0;
-                        obj.posx += kickWallsLeft[obj.rotation][i][0];
-                        obj.posy += kickWallsLeft[obj.rotation][i][1];
-                        obj.rotation = (obj.rotation + 3) % 4;
-                        break;
-                    }
+                put(obj.posx, pos, obj.nowBlock, obj.rotation, obj);
+                clearLine(obj);
+                newBlock(obj);
+                if (!canBePutted(obj.posx, obj.posy, obj.nowBlock, obj.rotation, obj)) {
+                    obj.lose = true;
                 }
             }
         }
-    }
-    if (keyDown[key2str[defaultInputKeys.rotateRight]] && obj.lose == false && obj.win == false) {
-        if (keyPress[key2str[defaultInputKeys.rotateRight]] == 1) {
-            if (obj.nowBlock == 1) {
-                for (var i = 0; i < 5; ++i) {
-                    if (canBePutted(obj.posx + kickWallsRightI[obj.rotation][i][0], obj.posy + kickWallsRightI[obj.rotation][i][1], obj.nowBlock, (obj.rotation + 1) % 4, obj)) {
-                        obj.lockTime = 0;
-                        obj.posx += kickWallsRightI[obj.rotation][i][0];
-                        obj.posy += kickWallsRightI[obj.rotation][i][1];
-                        obj.rotation = (obj.rotation + 1) % 4;
-                        break;
-                    }
-                }
-            }
-            else {
-                for (var i = 0; i < 5; ++i) {
-                    if (canBePutted(obj.posx + kickWallsRight[obj.rotation][i][0], obj.posy + kickWallsRight[obj.rotation][i][1], obj.nowBlock, (obj.rotation + 1) % 4, obj)) {
-                        obj.lockTime = 0;
-                        obj.posx += kickWallsRight[obj.rotation][i][0];
-                        obj.posy += kickWallsRight[obj.rotation][i][1];
-                        obj.rotation = (obj.rotation + 1) % 4;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    if (keyDown[key2str[defaultInputKeys.hold]] && obj.lose == false && obj.win == false) {
-        if (keyPress[key2str[defaultInputKeys.hold]] == 1) {
-            if (obj.enableHold) {
-                if (obj.hold == 0) {
-                    if (canBePutted(3, obj.height + 2, obj.next[0], 0, obj)) {
-                        obj.hold = obj.nowBlock;
-                        obj.holdUsed = true;
-                        newBlock(obj);
+        if (keyDown[key2str[defaultInputKeys.rotateLeft]]) {
+            if (keyPress[key2str[defaultInputKeys.rotateLeft]] == 1) {
+                if (obj.nowBlock == 1) {
+                    for (var i = 0; i < 5; ++i) {
+                        if (canBePutted(obj.posx + kickWallsLeftI[obj.rotation][i][0], obj.posy + kickWallsLeftI[obj.rotation][i][1], obj.nowBlock, (obj.rotation + 3) % 4, obj)) {
+                            obj.lockTime = 0;
+                            obj.posx += kickWallsLeftI[obj.rotation][i][0];
+                            obj.posy += kickWallsLeftI[obj.rotation][i][1];
+                            obj.rotation = (obj.rotation + 3) % 4;
+                            break;
+                        }
                     }
                 }
                 else {
-                    if (!obj.holdUsed && canBePutted(3, obj.height + 2, obj.hold, 0, obj)) {
-                        var t = obj.nowBlock;
-                        obj.nowBlock = obj.hold;
-                        obj.hold = t;
-                        obj.holdUsed = true;
-                        obj.lockTime = 0;
-                        obj.rotation = 0;
-                        obj.posx = 3;
-                        obj.posy = obj.height + 2;
+                    for (var i = 0; i < 5; ++i) {
+                        if (canBePutted(obj.posx + kickWallsLeft[obj.rotation][i][0], obj.posy + kickWallsLeft[obj.rotation][i][1], obj.nowBlock, (obj.rotation + 3) % 4, obj)) {
+                            obj.lockTime = 0;
+                            obj.posx += kickWallsLeft[obj.rotation][i][0];
+                            obj.posy += kickWallsLeft[obj.rotation][i][1];
+                            obj.rotation = (obj.rotation + 3) % 4;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (keyDown[key2str[defaultInputKeys.rotateRight]]) {
+            if (keyPress[key2str[defaultInputKeys.rotateRight]] == 1) {
+                if (obj.nowBlock == 1) {
+                    for (var i = 0; i < 5; ++i) {
+                        if (canBePutted(obj.posx + kickWallsRightI[obj.rotation][i][0], obj.posy + kickWallsRightI[obj.rotation][i][1], obj.nowBlock, (obj.rotation + 1) % 4, obj)) {
+                            obj.lockTime = 0;
+                            obj.posx += kickWallsRightI[obj.rotation][i][0];
+                            obj.posy += kickWallsRightI[obj.rotation][i][1];
+                            obj.rotation = (obj.rotation + 1) % 4;
+                            break;
+                        }
+                    }
+                }
+                else {
+                    for (var i = 0; i < 5; ++i) {
+                        if (canBePutted(obj.posx + kickWallsRight[obj.rotation][i][0], obj.posy + kickWallsRight[obj.rotation][i][1], obj.nowBlock, (obj.rotation + 1) % 4, obj)) {
+                            obj.lockTime = 0;
+                            obj.posx += kickWallsRight[obj.rotation][i][0];
+                            obj.posy += kickWallsRight[obj.rotation][i][1];
+                            obj.rotation = (obj.rotation + 1) % 4;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (keyDown[key2str[defaultInputKeys.rotate180]]) {
+            if (keyPress[key2str[defaultInputKeys.rotate180]] == 1) {
+                if (canBePutted(obj.posx, obj.posy, obj.nowBlock, (obj.rotation + 2) % 4, obj)) {
+                    obj.lockTime = 0;
+                    obj.rotation = (obj.rotation + 2) % 4;
+                }
+            }
+        }
+        if (keyDown[key2str[defaultInputKeys.hold]] && obj.enableHold) {
+            if (keyPress[key2str[defaultInputKeys.hold]] == 1) {
+                if (obj.enableHold) {
+                    if (obj.hold == 0) {
+                        if (canBePutted(3, obj.height + 2, obj.next[0], 0, obj)) {
+                            obj.hold = obj.nowBlock;
+                            newBlock(obj);
+                            obj.holdUsed = true;
+                        }
+                    }
+                    else {
+                        if (!obj.holdUsed && canBePutted(3, obj.height + 2, obj.hold, 0, obj)) {
+                            var t = obj.nowBlock;
+                            obj.nowBlock = obj.hold;
+                            obj.hold = t;
+                            obj.holdUsed = true;
+                            obj.lockTime = 0;
+                            obj.rotation = 0;
+                            obj.posx = 3;
+                            obj.posy = obj.height + 2;
+                        }
                     }
                 }
             }
@@ -221,10 +234,16 @@ function moveBlock(obj) {
     }
     if (keyPress[key2str[defaultInputKeys.restart]] == 1) {
         var mode = playerObj.mode;
+        clearInterval(playerObj.startId);
         loadgame();
         playerObj.mode = mode;
         loadMode(playerObj);
         startGame(playerObj);
+    }
+    if (keyPress[key2str[defaultInputKeys.back]] == 1) {
+        clearInterval(playerObj.startId);
+        clearInterval(stopId);
+        NowPos = 'singleMenu'
     }
 }
 function newBlock(obj) {
@@ -233,8 +252,10 @@ function newBlock(obj) {
     obj.posx = 3;
     obj.posy = obj.height + 2;
     obj.rotation = 0;
+    obj.rotateUsed = 0;
     obj.lockTime = 0
     obj.holdUsed = false;
+    obj.minHeight = obj.height + 2;
     generateNext(obj);
 }
 function clearLine(obj) {

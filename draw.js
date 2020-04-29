@@ -62,26 +62,9 @@ function drawSingleGame(gl) {
     gl.lineWidth = 5;
     gl.strokeStyle = 'rgb(255,255,255)';
     gl.fillStyle = 'rgb(255,255,255)';
-    for (var i = 0; i < playerObj.width; ++i) {
-        for (var j = 0; j < playerObj.height + 2; ++j) {
-            if (playerObj.map[j][i] != 0) {
-                drawSingleBlock(gl, gameLayout.mapPosx + i * gameLayout.baseUnit, gameLayout.playHeight - (1.5 + j) * gameLayout.baseUnit, playerObj.map[j][i], gameLayout.baseUnit);
-            }
-        }
-    }
+    drawMap(gl, gameLayout, playerObj);
     if (playerObj.enableGhost) {
-        var pos = playerObj.posy;
-        for (var i = playerObj.posy - 1; i >= 0; --i) {
-            if (canBePutted(playerObj.posx, i, playerObj.nowBlock, playerObj.rotation, playerObj)) {
-                pos = i;
-            }
-            else {
-                break;
-            }
-        }
-        gl.globalAlpha = 0.5;
-        drawBlockIn(gl, gameLayout.mapPosx + playerObj.posx * gameLayout.baseUnit, gameLayout.playHeight - (pos + 0.5) * gameLayout.baseUnit, playerObj.nowBlock, gameLayout.baseUnit, playerObj.rotation);
-        gl.globalAlpha = 1.0;
+        drawGhost(gl, gameLayout, playerObj);
     }
     if (playerObj.enableHold) {
         if (playerObj.hold != 0) {
@@ -96,7 +79,35 @@ function drawSingleGame(gl) {
     drawBlockIn(gl, gameLayout.mapPosx + playerObj.posx * gameLayout.baseUnit, gameLayout.playHeight - (playerObj.posy + 0.5) * gameLayout.baseUnit, playerObj.nowBlock, gameLayout.baseUnit, playerObj.rotation);
     gl.strokeRect(gameLayout.posx, gameLayout.posy, gameLayout.playWidth, gameLayout.playHeight);
     gl.strokeRect(gameLayout.mapPosx - 5, gameLayout.mapPosy - 5, gameLayout.baseUnit * playerObj.width + 10, gameLayout.baseUnit * playerObj.height + 10);
-    drawMode(gl);
+    if (playerObj.ready == 0) {
+        drawMode(gl);
+    }
+    else {
+        drawReady(gl);
+    }
+}
+function drawMap(gl, layout, obj) {
+    for (var i = 0; i < obj.width; ++i) {
+        for (var j = 0; j < obj.height + 2; ++j) {
+            if (obj.map[j][i] != 0) {
+                drawSingleBlock(gl, layout.mapPosx + i * layout.baseUnit, layout.playHeight - (1.5 + j) * layout.baseUnit, obj.map[j][i], layout.baseUnit);
+            }
+        }
+    }
+}
+function drawGhost(gl, layout, obj) {
+    var pos = obj.posy;
+    for (var i = obj.posy - 1; i >= 0; --i) {
+        if (canBePutted(obj.posx, i, obj.nowBlock, obj.rotation, obj)) {
+            pos = i;
+        }
+        else {
+            break;
+        }
+    }
+    gl.globalAlpha = 0.5;
+    drawBlockIn(gl, layout.mapPosx + obj.posx * layout.baseUnit, layout.playHeight - (pos + 0.5) * layout.baseUnit, obj.nowBlock, layout.baseUnit, obj.rotation);
+    gl.globalAlpha = 1.0;
 }
 function drawBlockIn(gl, x, y, id, size, rotation = 0) {
     for (var i = 0; i < blocks[id][rotation].length; ++i) {
@@ -153,4 +164,12 @@ function drawMode(gl) {
             }
             break;
     }
+}
+function drawReady(gl) {
+    gl.strokeStyle = 'rgb(255,255,255)';
+    gl.fillStyle = 'rgb(255,255,255)';
+    gl.textAlign = 'center';
+    gl.textBaseline = "middle";
+    gl.font = 'bold ' + gameLayout.baseUnit * 5 + 'px Material Icons';
+    gl.fillText(playerObj.ready, windowWidth / 2, windowHeight / 2);
 }

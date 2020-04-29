@@ -7,9 +7,9 @@ window.onresize = function () {
             gameLayout = new layout(windowWidth, windowHeight);
             break;
     }
+    draw(gameCanvas);
 }
 function changeWindowSize() {
     canvas.width = windowWidth = window.innerWidth;
     canvas.height = windowHeight = window.innerHeight;
-    draw(gameCanvas);
 }

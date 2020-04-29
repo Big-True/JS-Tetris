@@ -213,7 +213,7 @@ var defaultInputKeys = {
     rotate180: str2key['Up'],
     hold: str2key['Shift'],
     restart: str2key['R'],
-    pause: str2key['Esc']
+    back: str2key['Esc']
 }
 var defaultGameSettings = {
     width: 10,
@@ -228,7 +228,7 @@ var defaultGameSettings = {
     enableHold: true,
     holdCount: 1,
     singleRotate: false,
-    enableRotatr180: false,
+    enableRotatr180: true,
     enableNext: true,
     nextCount: 5,
     maxNextCount: 16,
