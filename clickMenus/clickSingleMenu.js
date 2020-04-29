@@ -6,32 +6,51 @@ function clickSingleMenu(x, y) {
         loadgame();
         switch (item) {
             case 0:
+                loadgame();
                 playerObj.mode = '40L'
+                loadMode(playerObj);
+                startGame(playerObj);
                 break;
             case 1:
+                loadgame();
                 playerObj.mode = '150L'
+                loadMode(playerObj);
+                startGame(playerObj);
                 break;
             case 2:
+                loadgame();
                 playerObj.mode = '999L'
+                loadMode(playerObj);
+                startGame(playerObj);
                 break;
             case 3:
+                loadgame();
                 playerObj.mode = 'marathon'
+                loadMode(playerObj);
+                startGame(playerObj);
                 break;
             case 4:
+                loadgame();
                 playerObj.mode = '150s'
+                loadMode(playerObj);
+                startGame(playerObj);
                 break;
             case 5:
+                loadgame();
                 playerObj.mode = 'C4W'
+                loadMode(playerObj);
+                startGame(playerObj);
                 break;
             case 6:
+                loadgame();
                 playerObj.mode = 'S4W'
+                loadMode(playerObj);
+                startGame(playerObj);
                 break;
             case 7:
                 baseMenu();
                 break;
         }
-        loadMode(playerObj);
-        startGame(playerObj);
     }
 }
 function singleMenu() {
