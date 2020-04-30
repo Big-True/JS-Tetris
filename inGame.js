@@ -12,6 +12,9 @@ function startGame(obj) {
     obj.ready = 3;
     obj.passedTime = 0;
     obj.pause = false;
+    if (obj.mode == 'marathon') {
+        obj.gravity == 1 / 60;
+    }
     for (var i = 0; i < obj.maxNextCount; ++i) {
         generateNext(obj);
     }
@@ -28,6 +31,23 @@ function inGame(obj) {
         obj.passedTime += 1000 / 60;
         if (obj.mode == '150s' && obj.passedTime > 1000 * obj.goal) {
             obj.win = true;
+        }
+        if (obj.mode == 'marathon') {
+            if (obj.cleanInfo.cleanedLine < 601) {
+                obj.gravity = parseInt(obj.cleanInfo.cleanedLine / 10) / 60;
+                if (obj.gravity == 0) {
+                    obj.gravity = 1 / 60;
+                }
+            }
+            else {
+                obj.gravity = parseInt((obj.cleanInfo.cleanedLine - 600) / 20);
+                if (obj.gravity == 0) {
+                    obj.gravity = 1;
+                }
+                if (obj.gravity > 20) {
+                    obj.gravity = 20;
+                }
+            }
         }
         obj.nextTimeDrop += obj.gravity;
         if (canBePutted(obj.posx, obj.posy - 1, obj.nowBlock, obj.rotation, obj)) {
