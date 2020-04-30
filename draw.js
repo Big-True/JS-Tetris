@@ -40,7 +40,7 @@ function drawMenu(gl) {
 }
 function drawSingleMenu(gl) {
     var perHeight = windowHeight / defaultModeOptions.length;
-    var perWidth = 4 * perHeight > windowWidth ? windowWidth : 4 * perHeight;
+    var perWidth = Math.min(windowWidth, 4 * perHeight);
     gl.strokeStyle = 'rgb(255,255,255)';
     gl.fillStyle = 'rgb(255,255,255)';
     gl.lineWidth = 5
@@ -53,10 +53,108 @@ function drawSingleMenu(gl) {
     }
 }
 function drawSettings(gl) {
+    var perHeight = windowHeight / defaultSettingOptions.length / 8 * 7;
+    var perWidth = Math.min(windowWidth / 2, 4 * perHeight);
+    var perHeight2 = windowHeight / defaultSettingOptions2.length / 8 * 7;
+    var perWidth2 = Math.min(windowWidth / 2, 4 * perHeight2);
+    gl.strokeStyle = 'rgb(255,255,255)';
+    gl.fillStyle = 'rgb(255,255,255)';
+    gl.lineWidth = 5
+    gl.font = 'bold ' + perHeight / 2 + 'px Material Icons';
+    gl.textAlign = 'center';
+    gl.textBaseline = "middle";
+    for (var i = 0; i < defaultSettingOptions.length; ++i) {
+        var data;
+        switch (i) {
+            case 0:
+                data = key2str[defaultInputKeys.moveLeft];
+                break;
+            case 1:
+                data = key2str[defaultInputKeys.moveRight];
+                break;
+            case 2:
+                data = key2str[defaultInputKeys.softDrop];
+                break;
+            case 3:
+                data = key2str[defaultInputKeys.hardDrop];
+                break;
+            case 4:
+                data = key2str[defaultInputKeys.rotateRight];
+                break;
+            case 5:
+                data = key2str[defaultInputKeys.rotateLeft];
+                break;
+            case 6:
+                data = key2str[defaultInputKeys.rotate180];
+                break;
+            case 7:
+                data = key2str[defaultInputKeys.hold];
+                break;
+            case 8:
+                data = key2str[defaultInputKeys.restart];
+                break;
+            case 9:
+                data = key2str[defaultInputKeys.back];
+                break;
+            case 10:
+                data = key2str[defaultInputKeys.pause];
+                break;
+        }
+        if(settingsPos==i){
+            data='输入...'
+        }
+        gl.strokeRect((windowWidth / 2 - perWidth) / 2 + 10, perHeight * i + 10, perWidth - 20, perHeight - 20);
+        gl.fillText(defaultSettingOptions[i] + ':' + data, windowWidth / 4, perHeight * (i + 0.5), perWidth - 40);
+    }
+    for (var i = 0; i < defaultSettingOptions2.length; ++i) {
+        switch (i) {
+            case 0:
+                data = defaultGameSettings.gravity;
+                break;
+            case 1:
+                data = defaultGameSettings.softDropSpeed;
+                break;
+            case 2:
+                data = defaultGameSettings.enableGhost ? '开' : '关';
+                break;
+            case 3:
+                data = defaultGameSettings.enableHardDrop ? '开' : '关';
+                break;
+            case 4:
+                data = defaultGameSettings.enableHold ? '开' : '关';
+                break;
+            case 5:
+                data = defaultGameSettings.singleRotate ? '开' : '关';
+                break;
+            case 6:
+                data = defaultGameSettings.enableRotate180 ? '开' : '关';
+                break;
+            case 7:
+                data = defaultGameSettings.enableNext ? '开' : '关';
+                break;
+            case 8:
+                data = defaultGameSettings.nextCount;
+                break;
 
+        }
+        gl.strokeRect((windowWidth / 2 * 3 - perWidth2) / 2 + 10, perHeight2 * i + 10, perWidth2 - 20, perHeight2 - 20);
+        gl.fillText(defaultSettingOptions2[i] + ':' + data, windowWidth / 4 * 3, perHeight2 * (i + 0.5), perWidth2 - 40);
+    }
+    gl.strokeRect((windowWidth - (perWidth + perWidth2) / 2) / 2 + 10, windowHeight / 8 * 7 + 10, (perWidth + perWidth2) / 2 - 20, windowHeight / 8 - 20);
+    gl.font = 'bold ' + windowHeight / 16 + 'px Material Icons';
+    gl.fillText('返回', windowWidth / 2, windowHeight / 16 * 15, (perWidth + perWidth2) / 2 - 20 - 40)
 }
 function drawMore(gl) {
-
+    var perHeight = windowHeight / 8;
+    var perWidth = Math.min(windowWidth, 4 * perHeight);
+    gl.strokeStyle = 'rgb(255,255,255)';
+    gl.fillStyle = 'rgb(255,255,255)';
+    gl.lineWidth = 5
+    gl.font = 'bold ' + perHeight / 2 + 'px Material Icons';
+    gl.textAlign = 'center';
+    gl.textBaseline = "middle";
+    gl.strokeRect((windowWidth - perWidth) / 2 + 10, (windowHeight - perHeight) / 2 + 10, perWidth - 20, perHeight - 20);
+    gl.fillText('返回', windowWidth / 2, windowHeight / 2, perWidth - 40);
 }
 function drawSingleGame(gl) {
     gl.lineWidth = 5;
@@ -72,8 +170,9 @@ function drawSingleGame(gl) {
         }
     }
     if (playerObj.enableNext) {
+        var unit = Math.min(gameLayout.baseUnit, gameLayout.playHeight / (2.5 * playerObj.nextCount));
         for (var i = 0; i < playerObj.nextCount; ++i) {
-            drawBlockIn(gl, gameLayout.mapPosx + (playerObj.width + 1) * gameLayout.baseUnit, gameLayout.baseUnit + i * gameLayout.baseUnit * 2.5, playerObj.next[i], gameLayout.baseUnit);
+            drawBlockIn(gl, gameLayout.mapPosx + (playerObj.width + 1) * gameLayout.baseUnit, unit * 0.5 + i * unit * 2.5, playerObj.next[i], unit);
         }
     }
     drawBlockIn(gl, gameLayout.mapPosx + playerObj.posx * gameLayout.baseUnit, gameLayout.playHeight - (playerObj.posy + 0.5) * gameLayout.baseUnit, playerObj.nowBlock, gameLayout.baseUnit, playerObj.rotation);

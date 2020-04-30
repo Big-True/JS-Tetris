@@ -1,6 +1,6 @@
 function clickBaseMenu(x, y) {
     var mainMenuPerHeight = windowHeight / 4 * 3 / defaultMenuOptions.length;
-    var mainMenuPerWidth = 4 * mainMenuPerHeight > windowWidth ? windowWidth : 4 * mainMenuPerHeight;
+    var mainMenuPerWidth = Math.min(windowWidth, 4 * mainMenuPerHeight);
     if (x > (windowWidth - mainMenuPerWidth) / 2 && x < (windowWidth + mainMenuPerWidth) / 2 && y > windowHeight / 4) {
         var item = Math.floor((y - windowHeight / 4) / mainMenuPerHeight);
         switch (item) {
@@ -21,6 +21,6 @@ function clickBaseMenu(x, y) {
         }
     }
 }
-function baseMenu(){
-    NowPos='menu'
+function baseMenu() {
+    NowPos = 'menu'
 }

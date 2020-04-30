@@ -7,6 +7,8 @@ function startGame(obj) {
     obj.lose = false;
     obj.win = false;
     obj.rotateUsed = 0;
+    obj.minHeight = 0;
+    obj.moveUsedTime = 0;
     obj.ready = 3;
     obj.passedTime = 0;
     obj.pause = false;
@@ -24,7 +26,7 @@ function inGame(obj) {
     gameInput(obj);
     if (!obj.lose && !obj.win && obj.ready == 0 && obj.pause == false) {
         obj.passedTime += 1000 / 60;
-        if (obj.passedTime > 1000 * obj.goal) {
+        if (obj.mode == '150s' && obj.passedTime > 1000 * obj.goal) {
             obj.win = true;
         }
         obj.nextTimeDrop += obj.gravity;
@@ -32,21 +34,27 @@ function inGame(obj) {
             while (obj.nextTimeDrop >= 1) {
                 if (canBePutted(obj.posx, obj.posy - 1, obj.nowBlock, obj.rotation, obj)) {
                     obj.posy--;
-                    obj.minHeight = Math.min(obj.posy, obj.minHeight);
+                    if (obj.minHeight > obj.posy) {
+                        obj.minHeight = obj.posy;
+                        obj.rotateUsed = 0;
+                    }
                     obj.nextTimeDrop--;
                     obj.lockTime = 0;
                     obj.cleanInfo.kickWall = 0;
+                    obj.moveUsedTime = 0;
                 }
                 else {
                     obj.lockTime++;
+                    obj.moveUsedTime++;
                     break;
                 }
             }
         }
         else {
             obj.lockTime++;
+            obj.moveUsedTime++;
         }
-        if (obj.lockTime > obj.maxLockTime) {
+        if (obj.lockTime > obj.maxLockTime || (obj.rotateUsed >= obj.maxRotateTime && !canBePutted(obj.posx, obj.posy - 1, obj.nowBlock, obj.rotation, obj)) || obj.moveUsedTime >= obj.maxMoveTime) {
             put(obj.posx, obj.posy, obj.nowBlock, obj.rotation, obj);
             clearLine(obj);
             if (obj.mode == 'C4W') {
@@ -160,6 +168,7 @@ function gameInput(obj) {
                     obj.posy--;
                     obj.lockTime = 0;
                     obj.cleanInfo.kickWall = 0;
+                    obj.moveUsedTime = 0;
                 }
             }
         }
@@ -176,6 +185,7 @@ function gameInput(obj) {
                 }
                 if (pos < obj.posy) {
                     obj.cleanInfo.kickWall = 0;
+                    obj.moveUsedTime = 0;
                 }
                 put(obj.posx, pos, obj.nowBlock, obj.rotation, obj);
                 clearLine(obj);
@@ -211,7 +221,7 @@ function gameInput(obj) {
                 }
             }
         }
-        if (keyDown[key2str[defaultInputKeys.rotateLeft]]) {
+        if (keyDown[key2str[defaultInputKeys.rotateLeft]] && !defaultGameSettings.singleRotate) {
             if (keyPress[key2str[defaultInputKeys.rotateLeft]] == 1) {
                 if (obj.nowBlock == 1) {
                     for (var i = 0; i < 5; ++i) {
@@ -221,6 +231,7 @@ function gameInput(obj) {
                             obj.posy += kickWallsLeftI[obj.rotation][i][1];
                             obj.rotation = (obj.rotation + 3) % 4;
                             obj.cleanInfo.kickWall = 0;
+                            obj.rotateUsed++;
                             if (i > 0) {
                                 obj.cleanInfo.kickWall = obj.nowBlock;
                             }
@@ -236,6 +247,7 @@ function gameInput(obj) {
                             obj.posy += kickWallsLeft[obj.rotation][i][1];
                             obj.rotation = (obj.rotation + 3) % 4;
                             obj.cleanInfo.kickWall = 0;
+                            obj.rotateUsed++;
                             if (i > 0) {
                                 obj.cleanInfo.kickWall = obj.nowBlock;
                             }
@@ -255,6 +267,7 @@ function gameInput(obj) {
                             obj.posy += kickWallsRightI[obj.rotation][i][1];
                             obj.rotation = (obj.rotation + 1) % 4;
                             obj.cleanInfo.kickWall = 0;
+                            obj.rotateUsed++;
                             if (i > 0) {
                                 obj.cleanInfo.kickWall = obj.nowBlock;
                             }
@@ -270,6 +283,7 @@ function gameInput(obj) {
                             obj.posy += kickWallsRight[obj.rotation][i][1];
                             obj.rotation = (obj.rotation + 1) % 4;
                             obj.cleanInfo.kickWall = 0;
+                            obj.rotateUsed++;
                             if (i > 0) {
                                 obj.cleanInfo.kickWall = obj.nowBlock;
                             }
@@ -279,12 +293,13 @@ function gameInput(obj) {
                 }
             }
         }
-        if (keyDown[key2str[defaultInputKeys.rotate180]]) {
+        if (keyDown[key2str[defaultInputKeys.rotate180]] && defaultGameSettings.enableRotate180 && !defaultGameSettings.singleRotate) {
             if (keyPress[key2str[defaultInputKeys.rotate180]] == 1) {
                 if (canBePutted(obj.posx, obj.posy, obj.nowBlock, (obj.rotation + 2) % 4, obj)) {
                     obj.lockTime = 0;
                     obj.rotation = (obj.rotation + 2) % 4;
                     obj.cleanInfo.kickWall = 0;
+                    obj.rotateUsed++;
                 }
             }
         }
@@ -310,6 +325,7 @@ function gameInput(obj) {
                             obj.posx = 3;
                             obj.posy = obj.height + 2;
                             obj.cleanInfo.kickWall = 0;
+                            obj.rotateUsed = 0;
                         }
                     }
                 }
@@ -343,6 +359,7 @@ function newBlock(obj) {
     obj.lockTime = 0
     obj.holdUsed = false;
     obj.minHeight = obj.height + 2;
+    obj.moveUsedTime = 0;
     generateNext(obj);
 }
 function clearLine(obj) {

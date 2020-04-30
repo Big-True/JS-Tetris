@@ -6,14 +6,68 @@ document.onmousedown = function (event) {
         case 'singleMenu':
             clickSingleMenu(event.clientX, event.clientY);
             break;
+        case 'settings':
+            clickSettingsMenu(event.clientX, event.clientY);
+            break;
+        case 'more':
+            clickMoreMenu(event.clientX, event.clientY);
+            break;
     }
     draw(gameCanvas);
 }
 document.onkeydown = function (event) {
-    keyDown[key2str[event.keyCode]] = true;
+    switch (NowPos) {
+        case 'singleGame':
+            keyDown[key2str[event.keyCode]] = true;
+            break;
+        case 'settings':
+            if (settingsPos != -1) {
+                switch (settingsPos) {
+                    case 0:
+                        defaultInputKeys.moveLeft = event.keyCode;
+                        break;
+                    case 1:
+                        defaultInputKeys.moveRight = event.keyCode;
+                        break;
+                    case 2:
+                        defaultInputKeys.softDrop = event.keyCode;
+                        break;
+                    case 3:
+                        defaultInputKeys.hardDrop = event.keyCode;
+                        break;
+                    case 4:
+                        defaultInputKeys.rotateRight = event.keyCode;
+                        break;
+                    case 5:
+                        defaultInputKeys.rotateLeft = event.keyCode;
+                        break;
+                    case 6:
+                        defaultInputKeys.rotate180 = event.keyCode;
+                        break;
+                    case 7:
+                        defaultInputKeys.hold = event.keyCode;
+                        break;
+                    case 8:
+                        defaultInputKeys.restart = event.keyCode;
+                        break;
+                    case 9:
+                        defaultInputKeys.back = event.keyCode;
+                        break;
+                    case 10:
+                        defaultInputKeys.pause = event.keyCode;
+                        break;
+                }
+                settingsPos = -1;
+            }
+    }
+    draw(gameCanvas);
 }
 document.onkeyup = function (event) {
-    keyDown[key2str[event.keyCode]] = false;
+    switch (NowPos) {
+        case 'singleGame':
+            keyDown[key2str[event.keyCode]] = false;
+            break;
+    }
 }
 var keyDown = {
     'Backspace': false,

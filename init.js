@@ -17,4 +17,5 @@ var T_skin = new Image();
 T_skin.src = 'skin/' + defaultSkinSettings.skin + '/T_skin.PNG';
 var Z_skin = new Image();
 Z_skin.src = 'skin/' + defaultSkinSettings.skin + '/Z_skin.PNG';
-var skins = [undefined,I_skin, J_skin, L_skin, O_skin, S_skin, T_skin, Z_skin, G_skin];
+var skins = [undefined, I_skin, J_skin, L_skin, O_skin, S_skin, T_skin, Z_skin, G_skin];
+var settingsPos = -1;
