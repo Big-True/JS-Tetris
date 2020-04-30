@@ -18,13 +18,13 @@ function clickSettingsMenu(x, y) {
         var item = Math.floor(y / mainMenuPerHeight2);
         switch (item) {
             case 0:
-                var i = prompt('重力', defaultGameSettings.gravity)
+                var i = prompt('重力 可以输表达式如1/60', defaultGameSettings.gravity)
                 if (eval(i) != null) {
                     defaultGameSettings.gravity = eval(i);
                 }
                 break;
             case 1:
-                var i = prompt('软降速度', defaultGameSettings.gravity)
+                var i = prompt('软降间隔', defaultGameSettings.softDropSpeed)
                 if (eval(i) != null) {
                     defaultGameSettings.softDropSpeed = eval(i);
                 }

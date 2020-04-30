@@ -9,6 +9,7 @@ function startGame(obj) {
     obj.rotateUsed = 0;
     obj.minHeight = 0;
     obj.moveUsedTime = 0;
+    obj.lastCombo = -1;
     obj.ready = 3;
     obj.passedTime = 0;
     obj.pause = false;
@@ -164,8 +165,10 @@ function gameInput(obj) {
         }
     }
     if (obj.lose == false && obj.win == false && obj.ready == 0 && obj.pause == false) {
-        if (keyDown[key2str[defaultInputKeys.moveLeft]]) {
-            if (keyPress[key2str[defaultInputKeys.moveLeft]] == 1 || keyPress[key2str[defaultInputKeys.moveLeft]] == 1 + defaultUserSettings.DAS || (keyPress[key2str[defaultInputKeys.moveLeft]] > 1 + defaultUserSettings.DAS && (keyPress[key2str[defaultInputKeys.moveLeft]] - 1 - defaultUserSettings.DAS) % defaultUserSettings.ARR == 0)) {
+        var tl = keyDown[key2str[defaultInputKeys.moveLeft]];
+        var tr = keyDown[key2str[defaultInputKeys.moveRight]];
+        if (tl && !(tl && tr)) {
+            if (keyPress[key2str[defaultInputKeys.moveLeft]] == 1 || keyPress[key2str[defaultInputKeys.moveLeft]] == 1 + defaultUserSettings.DAS || (keyPress[key2str[defaultInputKeys.moveLeft]] > 1 + defaultUserSettings.DAS && (keyPress[key2str[defaultInputKeys.moveLeft]] - 1 - defaultUserSettings.DAS) % (defaultUserSettings.ARR + 1) == 0)) {
                 if (canBePutted(obj.posx - 1, obj.posy, obj.nowBlock, obj.rotation, obj)) {
                     obj.posx--;
                     obj.lockTime = 0;
@@ -173,8 +176,8 @@ function gameInput(obj) {
                 }
             }
         }
-        if (keyDown[key2str[defaultInputKeys.moveRight]]) {
-            if (keyPress[key2str[defaultInputKeys.moveRight]] == 1 || keyPress[key2str[defaultInputKeys.moveRight]] == 1 + defaultUserSettings.DAS || (keyPress[key2str[defaultInputKeys.moveRight]] > 1 + defaultUserSettings.DAS && (keyPress[key2str[defaultInputKeys.moveRight]] - 1 - defaultUserSettings.DAS) % defaultUserSettings.ARR == 0)) {
+        if (tr && !(tl && tr)) {
+            if (keyPress[key2str[defaultInputKeys.moveRight]] == 1 || keyPress[key2str[defaultInputKeys.moveRight]] == 1 + defaultUserSettings.DAS || (keyPress[key2str[defaultInputKeys.moveRight]] > 1 + defaultUserSettings.DAS && (keyPress[key2str[defaultInputKeys.moveRight]] - 1 - defaultUserSettings.DAS) % (defaultUserSettings.ARR + 1) == 0)) {
                 if (canBePutted(obj.posx + 1, obj.posy, obj.nowBlock, obj.rotation, obj)) {
                     obj.posx++;
                     obj.lockTime = 0;
@@ -183,12 +186,13 @@ function gameInput(obj) {
             }
         }
         if (keyDown[key2str[defaultInputKeys.softDrop]]) {
-            if (keyPress[key2str[defaultInputKeys.softDrop]] % obj.softDropSpeed == 1) {
+            if ((keyPress[key2str[defaultInputKeys.softDrop]] - 1) % (obj.softDropSpeed + 1) == 0) {
                 if (canBePutted(obj.posx, obj.posy - 1, obj.nowBlock, obj.rotation, obj)) {
                     obj.posy--;
                     obj.lockTime = 0;
                     obj.cleanInfo.kickWall = 0;
                     obj.moveUsedTime = 0;
+                    obj.nextTimeDrop = 0;
                 }
             }
         }
@@ -206,6 +210,7 @@ function gameInput(obj) {
                 if (pos < obj.posy) {
                     obj.cleanInfo.kickWall = 0;
                     obj.moveUsedTime = 0;
+                    obj.nextTimeDrop = 0;
                 }
                 put(obj.posx, pos, obj.nowBlock, obj.rotation, obj);
                 clearLine(obj);
@@ -329,6 +334,7 @@ function gameInput(obj) {
                     if (obj.hold == 0) {
                         if (canBePutted(3, obj.height + 2, obj.next[0], 0, obj)) {
                             obj.hold = obj.nowBlock;
+                            obj.nextTimeDrop = 0;
                             newBlock(obj);
                             obj.holdUsed = true;
                             obj.cleanInfo.kickWall = 0;
@@ -341,6 +347,7 @@ function gameInput(obj) {
                             obj.hold = t;
                             obj.holdUsed = true;
                             obj.lockTime = 0;
+                            obj.nextTimeDrop = 0;
                             obj.rotation = 0;
                             obj.posx = 3;
                             obj.posy = obj.height + 2;
