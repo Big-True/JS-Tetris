@@ -54,6 +54,18 @@ function clickSettingsMenu(x, y) {
                     defaultGameSettings.maxNextCount = defaultGameSettings.nextCount;
                 }
                 break;
+            case 9:
+                var i = prompt('ARR', defaultGameSettings.ARR)
+                if (eval(i) != null) {
+                    defaultUserSettings.ARR = eval(i);
+                }
+                break;
+            case 10:
+                var i = prompt('DAS', defaultGameSettings.ARR)
+                if (eval(i) != null) {
+                    defaultUserSettings.DAS = eval(i);
+                }
+                break;
         }
     }
 }

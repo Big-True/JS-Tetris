@@ -258,7 +258,7 @@ var defaultSkinSettings = {
 var defaultMenuOptions = ['单人游戏', '多人游戏(会写的)', '设置', '更多(会写的)', '感谢PYG(这里回来会放工信部备案)'];
 var defaultModeOptions = ['40L', '150L', '999L', '马拉松', '150s', 'C4W', 'S4W', '返回'];
 var defaultSettingOptions = ['左', '右', '软降', '硬降', '右旋', '左旋', '180度旋', '暂存', '重开', '返回', '暂停'];
-var defaultSettingOptions2 = ['重力', '软降速度', '影子', '硬降', '暂存', '单旋', '180度旋', '预览块', '预览数量'];
+var defaultSettingOptions2 = ['重力', '软降速度', '影子', '硬降', '暂存', '单旋', '180度旋', '预览块', '预览数量','ARR','DAS'];
 var kickWallsRight = [
     [[0, 0], [-1, 0], [-1, 1], [0, -2], [-1, -2]],
     [[0, 0], [1, 0], [1, -1], [0, 2], [1, 2]],

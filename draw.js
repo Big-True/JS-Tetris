@@ -100,8 +100,8 @@ function drawSettings(gl) {
                 data = key2str[defaultInputKeys.pause];
                 break;
         }
-        if(settingsPos==i){
-            data='输入...'
+        if (settingsPos == i) {
+            data = '输入...'
         }
         gl.strokeRect((windowWidth / 2 - perWidth) / 2 + 10, perHeight * i + 10, perWidth - 20, perHeight - 20);
         gl.fillText(defaultSettingOptions[i] + ':' + data, windowWidth / 4, perHeight * (i + 0.5), perWidth - 40);
@@ -134,6 +134,12 @@ function drawSettings(gl) {
                 break;
             case 8:
                 data = defaultGameSettings.nextCount;
+                break;
+            case 9:
+                data = defaultUserSettings.ARR;
+                break;
+            case 10:
+                data = defaultUserSettings.DAS;
                 break;
 
         }
