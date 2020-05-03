@@ -194,7 +194,6 @@ function gameInput(obj) {
                 if (canBePutted(obj.posx - 1, obj.posy, obj.nowBlock, obj.rotation, obj)) {
                     obj.posx--;
                     obj.lockTime = 0;
-                    obj.nextTimeDrop = 0;
                     obj.cleanInfo.kickWall = 0;
                     obj.cleanInfo.tspin = false;
                     if (!canBePutted(obj.posx, obj.posy - 1, obj.nowBlock, obj.rotation, obj)) {
@@ -208,7 +207,6 @@ function gameInput(obj) {
                 if (canBePutted(obj.posx + 1, obj.posy, obj.nowBlock, obj.rotation, obj)) {
                     obj.posx++;
                     obj.lockTime = 0;
-                    obj.nextTimeDrop = 0;
                     obj.cleanInfo.kickWall = 0;
                     obj.cleanInfo.tspin = false;
                     if (!canBePutted(obj.posx, obj.posy - 1, obj.nowBlock, obj.rotation, obj)) {
@@ -289,7 +287,6 @@ function gameInput(obj) {
                     for (var i = 0; i < 5; ++i) {
                         if (canBePutted(obj.posx + kickWallsLeftI[obj.rotation][i][0], obj.posy + kickWallsLeftI[obj.rotation][i][1], obj.nowBlock, (obj.rotation + 3) % 4, obj)) {
                             obj.lockTime = 0;
-                            obj.nextTimeDrop = 0;
                             obj.posx += kickWallsLeftI[obj.rotation][i][0];
                             obj.posy += kickWallsLeftI[obj.rotation][i][1];
                             obj.rotation = (obj.rotation + 3) % 4;
@@ -297,6 +294,7 @@ function gameInput(obj) {
                             obj.cleanInfo.tspin = false;
                             if (i > 0) {
                                 obj.cleanInfo.kickWall = obj.nowBlock;
+                                obj.nextTimeDrop = 0;
                                 if (obj.cleanInfo.kickWall == 6) {
                                     obj.cleanInfo.tspin = true;
                                 }
@@ -321,13 +319,13 @@ function gameInput(obj) {
                     for (var i = 0; i < 5; ++i) {
                         if (canBePutted(obj.posx + kickWallsLeft[obj.rotation][i][0], obj.posy + kickWallsLeft[obj.rotation][i][1], obj.nowBlock, (obj.rotation + 3) % 4, obj)) {
                             obj.lockTime = 0;
-                            obj.nextTimeDrop = 0;
                             obj.posx += kickWallsLeft[obj.rotation][i][0];
                             obj.posy += kickWallsLeft[obj.rotation][i][1];
                             obj.rotation = (obj.rotation + 3) % 4;
                             obj.cleanInfo.kickWall = 0;
                             obj.cleanInfo.tspin = false;
                             if (i > 0) {
+                                obj.nextTimeDrop = 0;
                                 obj.cleanInfo.kickWall = obj.nowBlock;
                                 if (obj.cleanInfo.kickWall == 6) {
                                     obj.cleanInfo.tspin = true;
@@ -357,13 +355,13 @@ function gameInput(obj) {
                     for (var i = 0; i < 5; ++i) {
                         if (canBePutted(obj.posx + kickWallsRightI[obj.rotation][i][0], obj.posy + kickWallsRightI[obj.rotation][i][1], obj.nowBlock, (obj.rotation + 1) % 4, obj)) {
                             obj.lockTime = 0;
-                            obj.nextTimeDrop = 0;
                             obj.posx += kickWallsRightI[obj.rotation][i][0];
                             obj.posy += kickWallsRightI[obj.rotation][i][1];
                             obj.rotation = (obj.rotation + 1) % 4;
                             obj.cleanInfo.kickWall = 0;
                             obj.cleanInfo.tspin = false;
                             if (i > 0) {
+                                obj.nextTimeDrop = 0;
                                 obj.cleanInfo.kickWall = obj.nowBlock;
                                 if (obj.cleanInfo.kickWall == 6) {
                                     obj.cleanInfo.tspin = true;
@@ -389,13 +387,13 @@ function gameInput(obj) {
                     for (var i = 0; i < 5; ++i) {
                         if (canBePutted(obj.posx + kickWallsRight[obj.rotation][i][0], obj.posy + kickWallsRight[obj.rotation][i][1], obj.nowBlock, (obj.rotation + 1) % 4, obj)) {
                             obj.lockTime = 0;
-                            obj.nextTimeDrop = 0;
                             obj.posx += kickWallsRight[obj.rotation][i][0];
                             obj.posy += kickWallsRight[obj.rotation][i][1];
                             obj.rotation = (obj.rotation + 1) % 4;
                             obj.cleanInfo.kickWall = 0;
                             obj.cleanInfo.tspin = false;
                             if (i > 0) {
+                                obj.nextTimeDrop = 0;
                                 obj.cleanInfo.kickWall = obj.nowBlock;
                                 if (obj.cleanInfo.kickWall == 6) {
                                     obj.cleanInfo.tspin = true;
@@ -423,7 +421,6 @@ function gameInput(obj) {
             if (keyPress[key2str[inputKeys.rotate180]] == 1) {
                 if (canBePutted(obj.posx, obj.posy, obj.nowBlock, (obj.rotation + 2) % 4, obj)) {
                     obj.lockTime = 0;
-                    obj.nextTimeDrop = 0;
                     obj.rotation = (obj.rotation + 2) % 4;
                     obj.cleanInfo.kickWall = 0;
                     obj.cleanInfo.tspin = false;
