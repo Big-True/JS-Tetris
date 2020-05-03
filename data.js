@@ -222,8 +222,7 @@ var defaultGameSettings = {
     maxHeight: 40,
     gravity: 1 / 60,
     maxLockTime: 60,
-    maxRotateTime: 16,
-    maxMoveTime: 60,
+    maxMoveTime: 16,
     softDropSpeed: 5,
     enableGhost: true,
     enableHardDrop: true,
@@ -281,5 +280,12 @@ function baseCleanData() {
     this.combo = -1;
     this.b2b = false;
     this.cleanedLine = 0;
+    this.cleanedLineThisTime = 0;
     this.kickWall = 0;
+    this.attack = 0;
+    this.tspin = false;
+    this.countAttack = countAttack;
+    function countAttack() {
+
+    }
 }
