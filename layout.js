@@ -1,4 +1,6 @@
-function layout(width, height, count = 0, pos = 'middle') {
+function layout(width, height, count, pos) {
+    count = count || 0;
+    pos = pos || 'middle';
     if (count == 0) {
         this.maxUnit = Math.min(width, height);
         this.playWidth = this.maxUnit;

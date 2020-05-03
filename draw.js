@@ -222,7 +222,8 @@ function drawGhost(gl, layout, obj) {
     drawBlockIn(gl, layout.mapPosx + obj.posx * layout.baseUnit, layout.playHeight - (pos + 0.5) * layout.baseUnit, obj.nowBlock, layout.baseUnit, obj.rotation);
     gl.globalAlpha = 1.0;
 }
-function drawBlockIn(gl, x, y, id, size, rotation = 0) {
+function drawBlockIn(gl, x, y, id, size, rotation) {
+    rotation = rotation || 0;
     for (var i = 0; i < blocks[id][rotation].length; ++i) {
         for (var j = 0; j < blocks[id][rotation][0].length; ++j) {
             if (blocks[id][rotation][i][j] != 0) {

@@ -1,7 +1,7 @@
-function rng(inSeed =0) {
+function rng(inSeed) {
     this.rand = rand;
-    date=new Date()
-    inSeed=date.getTime();
+    date = new Date()
+    inSeed = inSeed || date.getTime();
     this.seed = inSeed;
     function rand(min, max) {
         this.seed = (this.seed * 1103515245 + 12345) % Math.pow(2, 32);
