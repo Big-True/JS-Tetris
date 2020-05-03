@@ -25,7 +25,8 @@ if (!window.localStorage) {
     alert("浏览器不支持存储设置 可以游玩 但设置会在重新打开后回复默认");
     inputKeys = JSON.parse(JSON.stringify(defaultInputKeys));
     gameSettings = JSON.parse(JSON.stringify(defaultGameSettings));
-} else {
+}
+else {
     if (window.localStorage.inputKeys) {
         inputKeys = JSON.parse(window.localStorage.inputKeys);
     }

@@ -58,7 +58,9 @@ document.onkeydown = function (event) {
                         break;
                 }
                 settingsPos = -1;
-                window.localStorage.inputKeys = JSON.stringify(inputKeys);
+                if (window.localStorage) {
+                    window.localStorage.inputKeys = JSON.stringify(inputKeys);
+                }
             }
     }
     draw(gameCanvas);

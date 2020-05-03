@@ -67,7 +67,9 @@ function clickSettingsMenu(x, y) {
                 }
                 break;
         }
-        window.localStorage.gameSettings = JSON.stringify(gameSettings);
+        if (window.localStorage) {
+            window.localStorage.gameSettings = JSON.stringify(gameSettings);
+        }
     }
 }
 function settingMenu() {
