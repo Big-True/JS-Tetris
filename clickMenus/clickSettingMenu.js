@@ -48,10 +48,10 @@ function clickSettingsMenu(x, y) {
                 gameSettings.enableNext = !gameSettings.enableNext;
                 break;
             case 8:
-                var i = prompt('预览数量', gameSettings.gravity)
+                var i = prompt('预览数量', gameSettings.nextCount)
                 if (eval(i) != null) {
                     gameSettings.nextCount = eval(i);
-                    gameSettings.maxNextCount = gameSettings.nextCount;
+                    gameSettings.maxNextCount = gameSettings.nextCount * 2;
                 }
                 break;
             case 9:
