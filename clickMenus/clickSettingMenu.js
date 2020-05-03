@@ -18,55 +18,56 @@ function clickSettingsMenu(x, y) {
         var item = Math.floor(y / mainMenuPerHeight2);
         switch (item) {
             case 0:
-                var i = prompt('重力 可以输表达式如1/60', defaultGameSettings.gravity)
+                var i = prompt('重力 可以输表达式如1/60', gameSettings.gravity)
                 if (eval(i) != null) {
-                    defaultGameSettings.gravity = eval(i);
+                    gameSettings.gravity = eval(i);
                 }
                 break;
             case 1:
-                var i = prompt('软降间隔', defaultGameSettings.softDropSpeed)
+                var i = prompt('软降间隔', gameSettings.softDropSpeed)
                 if (eval(i) != null) {
-                    defaultGameSettings.softDropSpeed = eval(i);
+                    gameSettings.softDropSpeed = eval(i);
                 }
                 break;
             case 2:
-                defaultGameSettings.enableGhost = !defaultGameSettings.enableGhost;
+                gameSettings.enableGhost = !gameSettings.enableGhost;
                 break;
             case 3:
-                defaultGameSettings.enableHardDrop = !defaultGameSettings.enableHardDrop;
+                gameSettings.enableHardDrop = !gameSettings.enableHardDrop;
                 break;
             case 4:
-                defaultGameSettings.enableHold = !defaultGameSettings.enableHold;
+                gameSettings.enableHold = !gameSettings.enableHold;
                 break;
             case 5:
-                defaultGameSettings.singleRotate = !defaultGameSettings.singleRotate;
+                gameSettings.singleRotate = !gameSettings.singleRotate;
                 break;
             case 6:
-                defaultGameSettings.enableRotate180 = !defaultGameSettings.enableRotate180;
+                gameSettings.enableRotate180 = !gameSettings.enableRotate180;
                 break;
             case 7:
-                defaultGameSettings.enableNext = !defaultGameSettings.enableNext;
+                gameSettings.enableNext = !gameSettings.enableNext;
                 break;
             case 8:
-                var i = prompt('预览数量', defaultGameSettings.gravity)
+                var i = prompt('预览数量', gameSettings.gravity)
                 if (eval(i) != null) {
-                    defaultGameSettings.nextCount = eval(i);
-                    defaultGameSettings.maxNextCount = defaultGameSettings.nextCount;
+                    gameSettings.nextCount = eval(i);
+                    gameSettings.maxNextCount = gameSettings.nextCount;
                 }
                 break;
             case 9:
-                var i = prompt('ARR', defaultGameSettings.ARR)
+                var i = prompt('ARR', gameSettings.ARR)
                 if (eval(i) != null) {
-                    defaultUserSettings.ARR = eval(i);
+                    gameSettings.ARR = eval(i);
                 }
                 break;
             case 10:
-                var i = prompt('DAS', defaultGameSettings.ARR)
+                var i = prompt('DAS', gameSettings.ARR)
                 if (eval(i) != null) {
-                    defaultUserSettings.DAS = eval(i);
+                    gameSettings.DAS = eval(i);
                 }
                 break;
         }
+        window.localStorage.gameSettings = JSON.stringify(gameSettings);
     }
 }
 function settingMenu() {

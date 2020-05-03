@@ -24,40 +24,41 @@ document.onkeydown = function (event) {
             if (settingsPos != -1) {
                 switch (settingsPos) {
                     case 0:
-                        defaultInputKeys.moveLeft = event.keyCode;
+                        inputKeys.moveLeft = event.keyCode;
                         break;
                     case 1:
-                        defaultInputKeys.moveRight = event.keyCode;
+                        inputKeys.moveRight = event.keyCode;
                         break;
                     case 2:
-                        defaultInputKeys.softDrop = event.keyCode;
+                        inputKeys.softDrop = event.keyCode;
                         break;
                     case 3:
-                        defaultInputKeys.hardDrop = event.keyCode;
+                        inputKeys.hardDrop = event.keyCode;
                         break;
                     case 4:
-                        defaultInputKeys.rotateRight = event.keyCode;
+                        inputKeys.rotateRight = event.keyCode;
                         break;
                     case 5:
-                        defaultInputKeys.rotateLeft = event.keyCode;
+                        inputKeys.rotateLeft = event.keyCode;
                         break;
                     case 6:
-                        defaultInputKeys.rotate180 = event.keyCode;
+                        inputKeys.rotate180 = event.keyCode;
                         break;
                     case 7:
-                        defaultInputKeys.hold = event.keyCode;
+                        inputKeys.hold = event.keyCode;
                         break;
                     case 8:
-                        defaultInputKeys.restart = event.keyCode;
+                        inputKeys.restart = event.keyCode;
                         break;
                     case 9:
-                        defaultInputKeys.back = event.keyCode;
+                        inputKeys.back = event.keyCode;
                         break;
                     case 10:
-                        defaultInputKeys.pause = event.keyCode;
+                        inputKeys.pause = event.keyCode;
                         break;
                 }
                 settingsPos = -1;
+                window.localStorage.inputKeys = JSON.stringify(inputKeys);
             }
     }
     draw(gameCanvas);

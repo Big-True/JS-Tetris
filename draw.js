@@ -67,37 +67,37 @@ function drawSettings(gl) {
         var data;
         switch (i) {
             case 0:
-                data = key2str[defaultInputKeys.moveLeft];
+                data = key2str[inputKeys.moveLeft];
                 break;
             case 1:
-                data = key2str[defaultInputKeys.moveRight];
+                data = key2str[inputKeys.moveRight];
                 break;
             case 2:
-                data = key2str[defaultInputKeys.softDrop];
+                data = key2str[inputKeys.softDrop];
                 break;
             case 3:
-                data = key2str[defaultInputKeys.hardDrop];
+                data = key2str[inputKeys.hardDrop];
                 break;
             case 4:
-                data = key2str[defaultInputKeys.rotateRight];
+                data = key2str[inputKeys.rotateRight];
                 break;
             case 5:
-                data = key2str[defaultInputKeys.rotateLeft];
+                data = key2str[inputKeys.rotateLeft];
                 break;
             case 6:
-                data = key2str[defaultInputKeys.rotate180];
+                data = key2str[inputKeys.rotate180];
                 break;
             case 7:
-                data = key2str[defaultInputKeys.hold];
+                data = key2str[inputKeys.hold];
                 break;
             case 8:
-                data = key2str[defaultInputKeys.restart];
+                data = key2str[inputKeys.restart];
                 break;
             case 9:
-                data = key2str[defaultInputKeys.back];
+                data = key2str[inputKeys.back];
                 break;
             case 10:
-                data = key2str[defaultInputKeys.pause];
+                data = key2str[inputKeys.pause];
                 break;
         }
         if (settingsPos == i) {
@@ -109,37 +109,37 @@ function drawSettings(gl) {
     for (var i = 0; i < defaultSettingOptions2.length; ++i) {
         switch (i) {
             case 0:
-                data = defaultGameSettings.gravity;
+                data = gameSettings.gravity;
                 break;
             case 1:
-                data = defaultGameSettings.softDropSpeed;
+                data = gameSettings.softDropSpeed;
                 break;
             case 2:
-                data = defaultGameSettings.enableGhost ? '开' : '关';
+                data = gameSettings.enableGhost ? '开' : '关';
                 break;
             case 3:
-                data = defaultGameSettings.enableHardDrop ? '开' : '关';
+                data = gameSettings.enableHardDrop ? '开' : '关';
                 break;
             case 4:
-                data = defaultGameSettings.enableHold ? '开' : '关';
+                data = gameSettings.enableHold ? '开' : '关';
                 break;
             case 5:
-                data = defaultGameSettings.singleRotate ? '开' : '关';
+                data = gameSettings.singleRotate ? '开' : '关';
                 break;
             case 6:
-                data = defaultGameSettings.enableRotate180 ? '开' : '关';
+                data = gameSettings.enableRotate180 ? '开' : '关';
                 break;
             case 7:
-                data = defaultGameSettings.enableNext ? '开' : '关';
+                data = gameSettings.enableNext ? '开' : '关';
                 break;
             case 8:
-                data = defaultGameSettings.nextCount;
+                data = gameSettings.nextCount;
                 break;
             case 9:
-                data = defaultUserSettings.ARR;
+                data = gameSettings.ARR;
                 break;
             case 10:
-                data = defaultUserSettings.DAS;
+                data = gameSettings.DAS;
                 break;
 
         }

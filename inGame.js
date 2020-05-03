@@ -168,7 +168,7 @@ function gameInput(obj) {
         var tl = keyDown[key2str[defaultInputKeys.moveLeft]];
         var tr = keyDown[key2str[defaultInputKeys.moveRight]];
         if (tl && !(tl && tr)) {
-            if (keyPress[key2str[defaultInputKeys.moveLeft]] == 1 || keyPress[key2str[defaultInputKeys.moveLeft]] == 1 + defaultUserSettings.DAS || (keyPress[key2str[defaultInputKeys.moveLeft]] > 1 + defaultUserSettings.DAS && (keyPress[key2str[defaultInputKeys.moveLeft]] - 1 - defaultUserSettings.DAS) % (defaultUserSettings.ARR + 1) == 0)) {
+            if (keyPress[key2str[defaultInputKeys.moveLeft]] == 1 || keyPress[key2str[defaultInputKeys.moveLeft]] == 1 + defaultGameSettings.DAS || (keyPress[key2str[defaultInputKeys.moveLeft]] > 1 + defaultGameSettings.DAS && (keyPress[key2str[defaultInputKeys.moveLeft]] - 1 - defaultGameSettings.DAS) % (defaultGameSettings.ARR + 1) == 0)) {
                 if (canBePutted(obj.posx - 1, obj.posy, obj.nowBlock, obj.rotation, obj)) {
                     obj.posx--;
                     obj.lockTime = 0;
@@ -177,7 +177,7 @@ function gameInput(obj) {
             }
         }
         if (tr && !(tl && tr)) {
-            if (keyPress[key2str[defaultInputKeys.moveRight]] == 1 || keyPress[key2str[defaultInputKeys.moveRight]] == 1 + defaultUserSettings.DAS || (keyPress[key2str[defaultInputKeys.moveRight]] > 1 + defaultUserSettings.DAS && (keyPress[key2str[defaultInputKeys.moveRight]] - 1 - defaultUserSettings.DAS) % (defaultUserSettings.ARR + 1) == 0)) {
+            if (keyPress[key2str[defaultInputKeys.moveRight]] == 1 || keyPress[key2str[defaultInputKeys.moveRight]] == 1 + defaultGameSettings.DAS || (keyPress[key2str[defaultInputKeys.moveRight]] > 1 + defaultGameSettings.DAS && (keyPress[key2str[defaultInputKeys.moveRight]] - 1 - defaultGameSettings.DAS) % (defaultGameSettings.ARR + 1) == 0)) {
                 if (canBePutted(obj.posx + 1, obj.posy, obj.nowBlock, obj.rotation, obj)) {
                     obj.posx++;
                     obj.lockTime = 0;

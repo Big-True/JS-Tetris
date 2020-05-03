@@ -19,3 +19,19 @@ var Z_skin = new Image();
 Z_skin.src = 'skin/' + defaultSkinSettings.skin + '/Z_skin.PNG';
 var skins = [undefined, I_skin, J_skin, L_skin, O_skin, S_skin, T_skin, Z_skin, G_skin];
 var settingsPos = -1;
+var inputKeys;
+if (window.localStorage.inputKeys) {
+    inputKeys = JSON.parse(window.localStorage.inputKeys);
+}
+else {
+    window.localStorage.inputKeys = JSON.stringify(defaultInputKeys);
+    inputKeys = JSON.parse(JSON.stringify(defaultInputKeys));
+}
+var gameSettings
+if (window.localStorage.gameSettings) {
+    gameSettings = JSON.parse(window.localStorage.gameSettings);
+}
+else {
+    window.localStorage.gameSettings = JSON.stringify(defaultGameSettings);
+    gameSettings = JSON.parse(JSON.stringify(defaultGameSettings));
+}
