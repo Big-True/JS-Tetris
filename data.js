@@ -241,6 +241,7 @@ var defaultGameSettings = {
     garbageSpawnType: 'normal',
     layout: 'middle',
     name: 'null',
+    enableBlockSpace: true,
     DAS: 10,
     ARR: 2
 }
@@ -251,7 +252,7 @@ var defaultSkinSettings = {
 var defaultMenuOptions = ['单人游戏', '多人游戏(会写的)', '设置', '更多(会写的)', '感谢PYG(这里回来会放工信部备案)'];
 var defaultModeOptions = ['40L', '150L', '999L', '马拉松', '150s', 'C4W', 'S4W', '返回'];
 var defaultSettingOptions = ['左', '右', '软降', '硬降', '右旋', '左旋', '180度旋', '暂存', '重开', '返回', '暂停'];
-var defaultSettingOptions2 = ['重力', '软降间隔', '影子', '硬降', '暂存', '单旋', '180度旋', '预览块', '预览数量', 'ARR', 'DAS'];
+var defaultSettingOptions2 = ['重力', '软降间隔', '影子', '硬降', '暂存', '单旋', '180度旋', '预览块', '预览数量', '块间隔','ARR', 'DAS'];
 var kickWallsRight = [
     [[0, 0], [-1, 0], [-1, 1], [0, -2], [-1, -2]],
     [[0, 0], [1, 0], [1, -1], [0, 2], [1, 2]],
@@ -286,6 +287,39 @@ function baseCleanData() {
     this.tspin = false;
     this.countAttack = countAttack;
     function countAttack() {
-
+        var att = 0;
+        if (this.tspin) {
+            switch (this.cleanedLineThisTime) {
+                case 1:
+                    att += 2;
+                    break;
+                case 2:
+                    att += 4;
+                    break;
+                case 3:
+                    att += 6;
+                    break;
+            }
+        }
+        else {
+            switch (this.cleanedLineThisTime) {
+                case 2:
+                    att += 1;
+                    break;
+                case 3:
+                    att += 2;
+                    break;
+                case 4:
+                    att += 4;
+                    break;
+            }
+        }
+        if (this.b2b) {
+            att += 1;
+        }
+        if (this.prefectClear){
+            att+=10;
+        }
+        this.attack=att;
     }
 }

@@ -136,9 +136,12 @@ function drawSettings(gl) {
                 data = gameSettings.nextCount;
                 break;
             case 9:
-                data = gameSettings.ARR;
+                data = gameSettings.enableBlockSpace ? '开' : '关';
                 break;
             case 10:
+                data = gameSettings.ARR;
+                break;
+            case 11:
                 data = gameSettings.DAS;
                 break;
 
@@ -233,7 +236,12 @@ function drawBlockIn(gl, x, y, id, size, rotation) {
     }
 }
 function drawSingleBlock(gl, x, y, id, size) {
-    gl.drawImage(skins[id], x, y, size, size);
+    if(gameSettings.enableBlockSpace){
+        gl.drawImage(skins[id], x+0.5, y+0.5, size-1, size-1);
+    }
+    else{
+        gl.drawImage(skins[id], x, y, size, size);
+    }
 }
 function drawMode(gl) {
     gl.lineWidth = 5;

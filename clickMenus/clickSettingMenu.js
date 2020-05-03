@@ -55,12 +55,15 @@ function clickSettingsMenu(x, y) {
                 }
                 break;
             case 9:
+                gameSettings.enableBlockSpace = !gameSettings.enableBlockSpace;
+                break;
+            case 10:
                 var i = prompt('ARR', gameSettings.ARR)
                 if (eval(i) != null) {
                     gameSettings.ARR = eval(i);
                 }
                 break;
-            case 10:
+            case 11:
                 var i = prompt('DAS', gameSettings.ARR)
                 if (eval(i) != null) {
                     gameSettings.DAS = eval(i);
