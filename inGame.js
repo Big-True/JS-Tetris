@@ -165,10 +165,10 @@ function gameInput(obj) {
         }
     }
     if (obj.lose == false && obj.win == false && obj.ready == 0 && obj.pause == false) {
-        var tl = keyDown[key2str[defaultInputKeys.moveLeft]];
-        var tr = keyDown[key2str[defaultInputKeys.moveRight]];
+        var tl = keyDown[key2str[inputKeys.moveLeft]];
+        var tr = keyDown[key2str[inputKeys.moveRight]];
         if (tl && !(tl && tr)) {
-            if (keyPress[key2str[defaultInputKeys.moveLeft]] == 1 || keyPress[key2str[defaultInputKeys.moveLeft]] == 1 + defaultGameSettings.DAS || (keyPress[key2str[defaultInputKeys.moveLeft]] > 1 + defaultGameSettings.DAS && (keyPress[key2str[defaultInputKeys.moveLeft]] - 1 - defaultGameSettings.DAS) % (defaultGameSettings.ARR + 1) == 0)) {
+            if (keyPress[key2str[inputKeys.moveLeft]] == 1 || keyPress[key2str[inputKeys.moveLeft]] == 1 + defaultGameSettings.DAS || (keyPress[key2str[inputKeys.moveLeft]] > 1 + defaultGameSettings.DAS && (keyPress[key2str[inputKeys.moveLeft]] - 1 - defaultGameSettings.DAS) % (defaultGameSettings.ARR + 1) == 0)) {
                 if (canBePutted(obj.posx - 1, obj.posy, obj.nowBlock, obj.rotation, obj)) {
                     obj.posx--;
                     obj.lockTime = 0;
@@ -177,7 +177,7 @@ function gameInput(obj) {
             }
         }
         if (tr && !(tl && tr)) {
-            if (keyPress[key2str[defaultInputKeys.moveRight]] == 1 || keyPress[key2str[defaultInputKeys.moveRight]] == 1 + defaultGameSettings.DAS || (keyPress[key2str[defaultInputKeys.moveRight]] > 1 + defaultGameSettings.DAS && (keyPress[key2str[defaultInputKeys.moveRight]] - 1 - defaultGameSettings.DAS) % (defaultGameSettings.ARR + 1) == 0)) {
+            if (keyPress[key2str[inputKeys.moveRight]] == 1 || keyPress[key2str[inputKeys.moveRight]] == 1 + defaultGameSettings.DAS || (keyPress[key2str[inputKeys.moveRight]] > 1 + defaultGameSettings.DAS && (keyPress[key2str[inputKeys.moveRight]] - 1 - defaultGameSettings.DAS) % (defaultGameSettings.ARR + 1) == 0)) {
                 if (canBePutted(obj.posx + 1, obj.posy, obj.nowBlock, obj.rotation, obj)) {
                     obj.posx++;
                     obj.lockTime = 0;
@@ -185,8 +185,8 @@ function gameInput(obj) {
                 }
             }
         }
-        if (keyDown[key2str[defaultInputKeys.softDrop]]) {
-            if ((keyPress[key2str[defaultInputKeys.softDrop]] - 1) % (obj.softDropSpeed + 1) == 0) {
+        if (keyDown[key2str[inputKeys.softDrop]]) {
+            if ((keyPress[key2str[inputKeys.softDrop]] - 1) % (obj.softDropSpeed + 1) == 0) {
                 if (canBePutted(obj.posx, obj.posy - 1, obj.nowBlock, obj.rotation, obj)) {
                     obj.posy--;
                     obj.lockTime = 0;
@@ -196,8 +196,8 @@ function gameInput(obj) {
                 }
             }
         }
-        if (keyDown[key2str[defaultInputKeys.hardDrop]] && obj.enableHardDrop) {
-            if (keyPress[key2str[defaultInputKeys.hardDrop]] == 1) {
+        if (keyDown[key2str[inputKeys.hardDrop]] && obj.enableHardDrop) {
+            if (keyPress[key2str[inputKeys.hardDrop]] == 1) {
                 var pos = obj.posy;
                 for (var i = obj.posy - 1; i >= 0; --i) {
                     if (canBePutted(obj.posx, i, obj.nowBlock, obj.rotation, obj)) {
@@ -246,8 +246,8 @@ function gameInput(obj) {
                 }
             }
         }
-        if (keyDown[key2str[defaultInputKeys.rotateLeft]] && !defaultGameSettings.singleRotate) {
-            if (keyPress[key2str[defaultInputKeys.rotateLeft]] == 1) {
+        if (keyDown[key2str[inputKeys.rotateLeft]] && !defaultGameSettings.singleRotate) {
+            if (keyPress[key2str[inputKeys.rotateLeft]] == 1) {
                 if (obj.nowBlock == 1) {
                     for (var i = 0; i < 5; ++i) {
                         if (canBePutted(obj.posx + kickWallsLeftI[obj.rotation][i][0], obj.posy + kickWallsLeftI[obj.rotation][i][1], obj.nowBlock, (obj.rotation + 3) % 4, obj)) {
@@ -282,8 +282,8 @@ function gameInput(obj) {
                 }
             }
         }
-        if (keyDown[key2str[defaultInputKeys.rotateRight]]) {
-            if (keyPress[key2str[defaultInputKeys.rotateRight]] == 1) {
+        if (keyDown[key2str[inputKeys.rotateRight]]) {
+            if (keyPress[key2str[inputKeys.rotateRight]] == 1) {
                 if (obj.nowBlock == 1) {
                     for (var i = 0; i < 5; ++i) {
                         if (canBePutted(obj.posx + kickWallsRightI[obj.rotation][i][0], obj.posy + kickWallsRightI[obj.rotation][i][1], obj.nowBlock, (obj.rotation + 1) % 4, obj)) {
@@ -318,8 +318,8 @@ function gameInput(obj) {
                 }
             }
         }
-        if (keyDown[key2str[defaultInputKeys.rotate180]] && defaultGameSettings.enableRotate180 && !defaultGameSettings.singleRotate) {
-            if (keyPress[key2str[defaultInputKeys.rotate180]] == 1) {
+        if (keyDown[key2str[inputKeys.rotate180]] && defaultGameSettings.enableRotate180 && !defaultGameSettings.singleRotate) {
+            if (keyPress[key2str[inputKeys.rotate180]] == 1) {
                 if (canBePutted(obj.posx, obj.posy, obj.nowBlock, (obj.rotation + 2) % 4, obj)) {
                     obj.lockTime = 0;
                     obj.rotation = (obj.rotation + 2) % 4;
@@ -328,8 +328,8 @@ function gameInput(obj) {
                 }
             }
         }
-        if (keyDown[key2str[defaultInputKeys.hold]] && obj.enableHold) {
-            if (keyPress[key2str[defaultInputKeys.hold]] == 1) {
+        if (keyDown[key2str[inputKeys.hold]] && obj.enableHold) {
+            if (keyPress[key2str[inputKeys.hold]] == 1) {
                 if (obj.enableHold) {
                     if (obj.hold == 0) {
                         if (canBePutted(3, obj.height + 2, obj.next[0], 0, obj)) {
@@ -359,7 +359,7 @@ function gameInput(obj) {
             }
         }
     }
-    if (keyPress[key2str[defaultInputKeys.restart]] == 1) {
+    if (keyPress[key2str[inputKeys.restart]] == 1) {
         var mode = playerObj.mode;
         clearInterval(playerObj.startId);
         loadgame();
@@ -367,12 +367,12 @@ function gameInput(obj) {
         loadMode(playerObj);
         startGame(playerObj);
     }
-    if (keyPress[key2str[defaultInputKeys.back]] == 1) {
+    if (keyPress[key2str[inputKeys.back]] == 1) {
         clearInterval(playerObj.startId);
         clearInterval(stopId);
         NowPos = 'singleMenu';
     }
-    if (keyPress[key2str[defaultInputKeys.pause]] == 1) {
+    if (keyPress[key2str[inputKeys.pause]] == 1) {
         obj.pause = !obj.pause;
     }
 }
