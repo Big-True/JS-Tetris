@@ -64,7 +64,7 @@ function clickSettingsMenu(x, y) {
                 }
                 break;
             case 11:
-                var i = prompt('DAS', gameSettings.ARR)
+                var i = prompt('DAS', gameSettings.DAS)
                 if (eval(i) != null) {
                     gameSettings.DAS = eval(i);
                 }
