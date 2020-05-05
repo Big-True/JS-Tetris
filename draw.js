@@ -30,6 +30,10 @@ function drawMenu(gl) {
     gl.strokeStyle = 'rgb(255,255,255)';
     gl.fillStyle = 'rgb(255,255,255)';
     gl.lineWidth = 5;
+    gl.textAlign = 'start';
+    gl.textBaseline = "alphabetic";
+    gl.font = 'bold ' + perHeight / 4 + 'px Material Icons';
+    gl.fillText('版本更新 最好清除一下页面缓存', 0, perHeight / 4);
     gl.font = 'bold ' + perHeight / 2 + 'px Material Icons';
     gl.textAlign = 'center';
     gl.textBaseline = "middle";
@@ -236,10 +240,10 @@ function drawBlockIn(gl, x, y, id, size, rotation) {
     }
 }
 function drawSingleBlock(gl, x, y, id, size) {
-    if(gameSettings.enableBlockSpace){
-        gl.drawImage(skins[id], x+0.5, y+0.5, size-1, size-1);
+    if (gameSettings.enableBlockSpace) {
+        gl.drawImage(skins[id], x + 0.5, y + 0.5, size - 1, size - 1);
     }
-    else{
+    else {
         gl.drawImage(skins[id], x, y, size, size);
     }
 }
