@@ -1,7 +1,7 @@
 function baseGameObj() {
     for (var i in gameSettings) {
         this[i] = gameSettings[i];
-    };
+    }
     this.map = new Array();
     for (var i = 0; i < this.maxHeight; ++i) {
         this.map[i] = new Array();

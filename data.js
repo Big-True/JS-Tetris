@@ -214,7 +214,9 @@ var defaultInputKeys = {
     hold: str2key['Shift'],
     restart: str2key['R'],
     back: str2key['Esc'],
-    pause: str2key['P']
+    pause: str2key['P'],
+    save: str2key['['],
+    load: str2key[']']
 }
 var defaultGameSettings = {
     width: 10,

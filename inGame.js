@@ -482,6 +482,26 @@ function gameInput(obj) {
     if (keyPress[key2str[inputKeys.pause]] == 1) {
         obj.pause = !obj.pause;
     }
+    if (obj.mode == 'marathon' && obj.ready == 0 && window.localStorage) {
+        if (keyPress[key2str[inputKeys.save]] == 1) {
+            window.localStorage.gameSaves = JSON.stringify(obj);
+        }
+        if (keyPress[key2str[inputKeys.load]] == 1) {
+            var load = JSON.parse(window.localStorage.gameSaves);
+            for (var i in load) {
+                obj[i] = load[i];
+            }
+            obj.cleanInfo = new baseCleanData();
+            for (var i in load.cleanInfo) {
+                obj.cleanInfo[i] = load.cleanInfo[i];
+            }
+            obj.rng = new rng();
+            for (var i in load.rng) {
+                obj.rng[i] = load.rng[i];
+            }
+            obj.pause = true;
+        }
+    }
 }
 function newBlock(obj) {
     obj.nowBlock = obj.next[0];
