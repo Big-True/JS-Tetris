@@ -128,24 +128,27 @@ function drawSettings(gl) {
                 data = gameSettings.enableHold ? '开' : '关';
                 break;
             case 5:
-                data = gameSettings.singleRotate ? '开' : '关';
+                data = gameSettings.holdCount;
                 break;
             case 6:
-                data = gameSettings.enableRotate180 ? '开' : '关';
+                data = gameSettings.singleRotate ? '开' : '关';
                 break;
             case 7:
-                data = gameSettings.enableNext ? '开' : '关';
+                data = gameSettings.enableRotate180 ? '开' : '关';
                 break;
             case 8:
-                data = gameSettings.nextCount;
+                data = gameSettings.enableNext ? '开' : '关';
                 break;
             case 9:
-                data = gameSettings.enableBlockSpace ? '开' : '关';
+                data = gameSettings.nextCount;
                 break;
             case 10:
-                data = gameSettings.ARR;
+                data = gameSettings.enableBlockSpace ? '开' : '关';
                 break;
             case 11:
+                data = gameSettings.ARR;
+                break;
+            case 12:
                 data = gameSettings.DAS;
                 break;
 
@@ -178,8 +181,9 @@ function drawSingleGame(gl) {
         drawGhost(gl, gameLayout, playerObj);
     }
     if (playerObj.enableHold) {
-        if (playerObj.hold != 0) {
-            drawBlockIn(gl, gameLayout.posx + 10, gameLayout.posy + gameLayout.baseUnit, playerObj.hold, gameLayout.baseUnit);
+        var unit = Math.min(gameLayout.baseUnit, gameLayout.playHeight / (2.5 * playerObj.holdCount));
+        for (var i = 0; i < playerObj.hold.length; ++i) {
+            drawBlockIn(gl, gameLayout.posx + 10, unit * 0.5 + i * unit * 2.5, playerObj.hold[i], unit);
         }
     }
     if (playerObj.enableNext) {

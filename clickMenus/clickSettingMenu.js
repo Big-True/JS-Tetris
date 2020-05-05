@@ -39,31 +39,37 @@ function clickSettingsMenu(x, y) {
                 gameSettings.enableHold = !gameSettings.enableHold;
                 break;
             case 5:
-                gameSettings.singleRotate = !gameSettings.singleRotate;
+                var i = prompt('暂存数量', gameSettings.holdCount)
+                if (eval(i) != null) {
+                    gameSettings.holdCount = eval(i);
+                }
                 break;
             case 6:
-                gameSettings.enableRotate180 = !gameSettings.enableRotate180;
+                gameSettings.singleRotate = !gameSettings.singleRotate;
                 break;
             case 7:
-                gameSettings.enableNext = !gameSettings.enableNext;
+                gameSettings.enableRotate180 = !gameSettings.enableRotate180;
                 break;
             case 8:
+                gameSettings.enableNext = !gameSettings.enableNext;
+                break;
+            case 9:
                 var i = prompt('预览数量', gameSettings.nextCount)
                 if (eval(i) != null) {
                     gameSettings.nextCount = eval(i);
                     gameSettings.maxNextCount = gameSettings.nextCount * 2;
                 }
                 break;
-            case 9:
+            case 10:
                 gameSettings.enableBlockSpace = !gameSettings.enableBlockSpace;
                 break;
-            case 10:
+            case 11:
                 var i = prompt('ARR', gameSettings.ARR)
                 if (eval(i) != null) {
                     gameSettings.ARR = eval(i);
                 }
                 break;
-            case 11:
+            case 12:
                 var i = prompt('DAS', gameSettings.DAS)
                 if (eval(i) != null) {
                     gameSettings.DAS = eval(i);

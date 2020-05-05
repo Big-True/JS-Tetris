@@ -1,7 +1,7 @@
 function startGame(obj) {
     obj.cleanInfo = new baseCleanData();
-    obj.hold = 0;
-    obj.holdUsed = false;
+    obj.hold = new Array();
+    obj.holdUsed = 0;
     obj.next = new Array(obj.maxNextCount);
     obj.rng = new rng();
     obj.lose = false;
@@ -75,6 +75,7 @@ function inGame(obj) {
         if (obj.lockTime > obj.maxLockTime || (obj.moveUsed >= obj.maxMoveTime && !canBePutted(obj.posx, obj.posy - 1, obj.nowBlock, obj.rotation, obj))) {
             put(obj.posx, obj.posy, obj.nowBlock, obj.rotation, obj);
             clearLine(obj);
+            obj.holdUsed = 0;
             if (obj.mode == 'C4W') {
                 for (var i = 0; i < obj.height - 5; ++i) {
                     for (var j = 0; j < obj.width; ++j) {
@@ -249,6 +250,7 @@ function gameInput(obj) {
                 }
                 put(obj.posx, pos, obj.nowBlock, obj.rotation, obj);
                 clearLine(obj);
+                obj.holdUsed = 0;
                 if (obj.mode == 'C4W') {
                     for (var i = 0; i < obj.height - 5; ++i) {
                         for (var j = 0; j < obj.width; ++j) {
@@ -436,22 +438,22 @@ function gameInput(obj) {
         if (keyDown[key2str[inputKeys.hold]] && obj.enableHold) {
             if (keyPress[key2str[inputKeys.hold]] == 1) {
                 if (obj.enableHold) {
-                    if (obj.hold == 0) {
+                    if (obj.hold.length < obj.holdCount) {
                         if (canBePutted(3, obj.height + 2, obj.next[0], 0, obj)) {
-                            obj.hold = obj.nowBlock;
+                            obj.hold.push(obj.nowBlock);
                             obj.nextTimeDrop = 0;
                             newBlock(obj);
-                            obj.holdUsed = true;
+                            obj.holdUsed++;
                             obj.cleanInfo.kickWall = 0;
                             obj.cleanInfo.tspin = false;
                         }
                     }
                     else {
-                        if (!obj.holdUsed && canBePutted(3, obj.height + 2, obj.hold, 0, obj)) {
+                        if (obj.holdUsed < obj.holdCount && canBePutted(3, obj.height + 2, obj.hold[0], 0, obj)) {
                             var t = obj.nowBlock;
-                            obj.nowBlock = obj.hold;
-                            obj.hold = t;
-                            obj.holdUsed = true;
+                            obj.nowBlock = obj.hold.shift(t);
+                            obj.hold.push(t);
+                            obj.holdUsed++;
                             obj.lockTime = 0;
                             obj.nextTimeDrop = 0;
                             obj.rotation = 0;
@@ -511,7 +513,6 @@ function newBlock(obj) {
     obj.rotation = 0;
     obj.moveUsed = 0;
     obj.lockTime = 0
-    obj.holdUsed = false;
     obj.minHeight = obj.height + 2;
     generateNext(obj);
 }
