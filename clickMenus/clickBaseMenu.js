@@ -17,6 +17,7 @@ function clickBaseMenu(x, y) {
                 moreMenu();
                 break;
             case 4:
+                window.open('http://www.beian.miit.gov.cn');
                 break;
         }
     }
